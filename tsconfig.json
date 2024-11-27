@@ -7,28 +7,22 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "baseUrl": ".",
     "incremental": true,
-    "strictPropertyInitialization": false,
     "paths": {
-      "@src/*": [
-        "./src/*"
-      ],
       "@/*": [
-        "./*"
+        "./src/*"
       ]
     },
-    "typeRoots": [
-      "node_modules/@types",
-      "node_module/phaser/types"
-    ]
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "next-env.d.ts",
