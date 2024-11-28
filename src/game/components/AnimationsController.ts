@@ -13,6 +13,7 @@ export default class AnimationsController {
     const framesKey = 'player'
     const frameRate = 7
 
+
     this.scene.anims.create({
       key: framesKey + '-run-front',
       frames: this.scene.anims.generateFrameNames(framesKey, {

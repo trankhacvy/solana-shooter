@@ -22,12 +22,14 @@ const HomePage = () => {
                     creatures, and become the hero of legend.
                 </p>
                 <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
-                    <Button
-                        size="lg"
-                        className="px-8 py-3 text-lg font-semibold"
-                    >
-                        <Link href="/play">Play Now</Link>
-                    </Button>
+                    <Link href="/play">
+                        <Button
+                            size="lg"
+                            className="px-8 py-3 text-lg font-semibold"
+                        >
+                            Play Now
+                        </Button>
+                    </Link>
                 </div>
             </div>
 

@@ -1,6 +1,19 @@
 import type { PlayerConfigType } from '../types/players'
 
 const playerConfig: PlayerConfigType = {
+  main: {
+    type: 'main',
+    title: 'Arcane P1',
+    regeneration: 0,
+    maximumHitPoints: -20,
+    bodyDamage: 0,
+    bulletSpeed: 0,
+    bulletDamage: 0,
+    attackRate: 0,
+    speed: 0,
+    weapon: 'Pistol',
+    evolutions: [],
+  },
   RickDefault: {
     type: 'RickDefault',
     title: 'Обычный Рик',

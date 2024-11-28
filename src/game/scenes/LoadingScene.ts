@@ -357,6 +357,12 @@ export default class LoadingScene extends Phaser.Scene {
     )
 
     this.load.atlas(
+      'main',
+      'spritesheets/players/main.png',
+      'spritesheets/players/main.json'
+    )
+
+    this.load.atlas(
       'CommanderRick',
       'spritesheets/players/CommanderRick.png',
       'spritesheets/players/CommanderRick.json'

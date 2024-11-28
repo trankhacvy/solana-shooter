@@ -94,7 +94,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(
             };
         }, [currentActiveScene, ref]);
 
-        return <div id="game-container"></div>;
+        return <div id="game-container" className="w-full h-screen"></div>;
     }
 );
 

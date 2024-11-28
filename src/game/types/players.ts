@@ -19,6 +19,7 @@ export type PlayerConfigType = {
 }
 
 export type PlayerNameType =
+  | 'main'
   | 'RickDefault'
   | 'CommanderRick'
   | 'CopRick'

@@ -8,15 +8,18 @@ const CHEATS = false
 
 const SCALE = 1
 
-const width =
-  window.innerWidth ||
-  document.documentElement.clientWidth ||
-  document.body.clientWidth
+// const width =
+//   window.innerWidth ||
+//   document.documentElement.clientWidth ||
+//   document.body.clientWidth
 
-const height =
-  window.innerHeight ||
-  document.documentElement.clientHeight ||
-  document.body.clientHeight
+// const height =
+//   window.innerHeight ||
+//   document.documentElement.clientHeight ||
+//   document.body.clientHeight
+
+const width = 1920;
+const height = 1080;
 
 export default {
   WIDTH: width * SCALE,
@@ -68,8 +71,8 @@ export default {
   },
   PLAYER: {
     DEFAULT: {
-      TYPE: 'RickDefault' as PlayerNameType,
-      FRAME: 'RickDefault_down_1',
+      TYPE: 'main' as PlayerNameType,
+      FRAME: 'main_down_1',
       WEAPON: 'Pistol' as WeaponType,
       REGENERATION: 1,
       REGENERATION_TIME: 1000,

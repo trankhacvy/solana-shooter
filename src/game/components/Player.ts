@@ -76,7 +76,7 @@ export default class Player extends Actor {
 
     this.weapon = new Weapon(scene, constants.PLAYER.DEFAULT.WEAPON)
 
-    this.typeController = new PlayerTypeController(this, 'RickDefault')
+    this.typeController = new PlayerTypeController(this, 'main')
 
     this.chooseType(this.typeController.getNameType)
     this.setCurrentHitPoints = this.getMaximumHitPoints
