@@ -1,115 +1,126 @@
-import Phaser from 'phaser'
-import constants from '../config/constants'
-import { WorldConfig } from '../config/worldsConfig'
+import Phaser from "phaser";
+import constants from "../config/constants";
+import { WorldConfig } from "../config/worldsConfig";
+import { MagicBlockEngine } from "@/libs/engine/magic-block-engine";
+import { MagicBlockEnginePlugin } from "../plugins/FloatingNumbers/MagicBlockEngine";
 
 export default class MainGame extends Phaser.Scene {
-  private gameFieldScene!: Phaser.Scene
-  private gameUIScene!: Phaser.Scene
-  private pauseScene!: Phaser.Scene
-  private gameOverScene!: Phaser.Scene
-  private world!: WorldConfig
+    private gameFieldScene!: Phaser.Scene;
+    private gameUIScene!: Phaser.Scene;
+    private pauseScene!: Phaser.Scene;
+    private gameOverScene!: Phaser.Scene;
+    private world!: WorldConfig;
+    private engine: MagicBlockEngine;
 
-  constructor() {
-    super(constants.SCENES.GAME_MAIN)
-  }
+    constructor() {
+        super(constants.SCENES.GAME_MAIN);
+    }
 
-  init(data: { world: WorldConfig }) {
-    this.world = data.world
-  }
+    init(data: { world: WorldConfig }) {
+        this.world = data.world;
+    }
 
-  create() {
-    this.gameFieldScene = this.scene.get(constants.SCENES.GAME_FIELD)
-    this.gameUIScene = this.scene.get(constants.SCENES.GAME_UI)
-    this.pauseScene = this.scene.get(constants.SCENES.GAME_PAUSE)
-    this.gameOverScene = this.scene.get(constants.SCENES.GAME_OVER)
+    create() {
+        this.gameFieldScene = this.scene.get(constants.SCENES.GAME_FIELD);
+        this.gameUIScene = this.scene.get(constants.SCENES.GAME_UI);
+        this.pauseScene = this.scene.get(constants.SCENES.GAME_PAUSE);
+        this.gameOverScene = this.scene.get(constants.SCENES.GAME_OVER);
 
-    this.scene.launch(constants.SCENES.GAME_FIELD, { world: this.world })
-    this.scene.launch(constants.SCENES.GAME_UI)
+        this.scene.launch(constants.SCENES.GAME_FIELD, { world: this.world });
+        this.scene.launch(constants.SCENES.GAME_UI);
 
-    this.initEvents()
-  }
+        // plugin
+        const plugin = this.plugins.get(
+            "magicBlockEngine"
+        ) as MagicBlockEnginePlugin;
+        this.engine = plugin.engine;
+        console.log(this.engine);
 
-  private initEvents(): void {
-    this.initGameFieldEvents()
-    this.initGameUIEvents()
-    this.initPauseGameEvents()
-    this.initGameOverEvents()
-  }
+        this.initEvents();
+    }
 
-  private initGameFieldEvents(): void {
-    this.gameFieldScene.events.on(
-      constants.EVENTS.GAME.PAUSE,
-      this.handlePauseGame,
-      this
-    )
+    private initEvents(): void {
+        this.initGameFieldEvents();
+        this.initGameUIEvents();
+        this.initPauseGameEvents();
+        this.initGameOverEvents();
+    }
 
-    this.gameFieldScene.events.on(
-      constants.EVENTS.GAME.GAME_OVER,
-      this.handleGameOverGame,
-      this
-    )
-  }
+    private initGameFieldEvents(): void {
+        this.gameFieldScene.events.on(
+            constants.EVENTS.GAME.PAUSE,
+            this.handlePauseGame,
+            this
+        );
 
-  private initGameUIEvents(): void {
-    this.gameUIScene.events.on(
-      constants.EVENTS.GAME.PAUSE,
-      this.handlePauseGame,
-      this
-    )
-  }
+        this.gameFieldScene.events.on(
+            constants.EVENTS.GAME.GAME_OVER,
+            this.handleGameOverGame,
+            this
+        );
+    }
 
-  private initPauseGameEvents(): void {
-    this.pauseScene.events.on(
-      constants.EVENTS.GAME.RESUME,
-      this.handleResumeGame,
-      this
-    )
+    private initGameUIEvents(): void {
+        this.gameUIScene.events.on(
+            constants.EVENTS.GAME.PAUSE,
+            this.handlePauseGame,
+            this
+        );
+    }
 
-    this.pauseScene.events.on(
-      constants.EVENTS.GAME.EXIT,
-      this.handleExitGame,
-      this
-    )
-  }
+    private initPauseGameEvents(): void {
+        this.pauseScene.events.on(
+            constants.EVENTS.GAME.RESUME,
+            this.handleResumeGame,
+            this
+        );
 
-  private initGameOverEvents(): void {
-    this.gameOverScene.events.on(
-      constants.EVENTS.GAME.EXIT,
-      this.handleExitGame,
-      this
-    )
-  }
+        this.pauseScene.events.on(
+            constants.EVENTS.GAME.EXIT,
+            this.handleExitGame,
+            this
+        );
+    }
 
-  private handlePauseGame(): void {
-    this.scene.pause(constants.SCENES.GAME_FIELD)
-    this.scene.pause(constants.SCENES.GAME_UI)
+    private initGameOverEvents(): void {
+        this.gameOverScene.events.on(
+            constants.EVENTS.GAME.EXIT,
+            this.handleExitGame,
+            this
+        );
+    }
 
-    this.scene.launch(constants.SCENES.GAME_PAUSE)
-  }
+    private handlePauseGame(): void {
+        this.scene.pause(constants.SCENES.GAME_FIELD);
+        this.scene.pause(constants.SCENES.GAME_UI);
 
-  private handleResumeGame(): void {
-    this.scene.stop(constants.SCENES.GAME_PAUSE)
+        this.scene.launch(constants.SCENES.GAME_PAUSE);
+    }
 
-    this.scene.resume(constants.SCENES.GAME_FIELD)
-    this.scene.resume(constants.SCENES.GAME_UI)
-  }
+    private handleResumeGame(): void {
+        this.scene.stop(constants.SCENES.GAME_PAUSE);
 
-  private handleExitGame(): void {
-    this.scene.stop(constants.SCENES.GAME_FIELD)
-    this.scene.stop(constants.SCENES.GAME_UI)
-    this.scene.stop(constants.SCENES.GAME_PAUSE)
-    this.scene.stop(constants.SCENES.GAME_OVER)
-    this.scene.stop(constants.SCENES.GAME_SKILL_UP)
+        this.scene.resume(constants.SCENES.GAME_FIELD);
+        this.scene.resume(constants.SCENES.GAME_UI);
+    }
 
-    this.scene.start(constants.SCENES.MAIN_MENU)
-  }
+    private handleExitGame(): void {
+        this.scene.stop(constants.SCENES.GAME_FIELD);
+        this.scene.stop(constants.SCENES.GAME_UI);
+        this.scene.stop(constants.SCENES.GAME_PAUSE);
+        this.scene.stop(constants.SCENES.GAME_OVER);
+        this.scene.stop(constants.SCENES.GAME_SKILL_UP);
 
-  private handleGameOverGame(): void {
-    this.scene.pause(constants.SCENES.GAME_FIELD)
-    this.scene.pause(constants.SCENES.GAME_UI)
-    this.scene.pause(constants.SCENES.GAME_PAUSE)
-    this.scene.pause(constants.SCENES.GAME_SKILL_UP)
+        this.scene.start(constants.SCENES.MAIN_MENU);
+    }
 
-    this.scene.launch(constants.SCENES.GAME_OVER)
-  }
+    private handleGameOverGame(): void {
+        this.scene.pause(constants.SCENES.GAME_FIELD);
+        this.scene.pause(constants.SCENES.GAME_UI);
+        this.scene.pause(constants.SCENES.GAME_PAUSE);
+        this.scene.pause(constants.SCENES.GAME_SKILL_UP);
+
+        this.scene.launch(constants.SCENES.GAME_OVER);
+    }
 }
+

@@ -1,42 +1,58 @@
-import Phaser, { Game } from 'phaser'
-import constants from './config/constants'
-import SceneList from './config/sceneList'
-import { plugins } from './config/pluginsConfig'
+import Phaser, { Game } from "phaser";
+import constants from "./config/constants";
+import SceneList from "./config/sceneList";
+import { plugins } from "./config/pluginsConfig";
+import { MagicBlockEngine } from "@/libs/engine/magic-block-engine";
+import { MagicBlockEnginePlugin } from "./plugins/FloatingNumbers/MagicBlockEngine";
 
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config: Phaser.Types.Core.GameConfig = {
-    title: 'A Sol game',
-    version: '1.0.0',
+    title: "A Sol game",
+    version: "1.0.0",
     type: Phaser.WEBGL,
-    parent: 'game-wrapper',
-    backgroundColor: '#38393D',
+    parent: "game-wrapper",
+    backgroundColor: "#38393D",
     width: constants.WIDTH,
     height: constants.HEIGHT,
     scale: {
-      mode: Phaser.Scale.WIDTH_CONTROLS_HEIGHT,
-      autoCenter: Phaser.Scale.CENTER_BOTH,
-      zoom: constants.SCALE,
+        mode: Phaser.Scale.WIDTH_CONTROLS_HEIGHT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        zoom: constants.SCALE,
     },
     physics: {
-      default: 'arcade',
-      arcade: {
-        debug: constants.DEBUG,
-        fps: 61,
-      },
+        default: "arcade",
+        arcade: {
+            debug: constants.DEBUG,
+            fps: 61,
+        },
     },
     render: {
-      pixelArt: false,
+        pixelArt: false,
     },
     autoFocus: true,
     scene: SceneList,
     plugins,
 };
 
-const StartGame = (parent: string) => {
+const StartGame = (parent: string, engine: MagicBlockEngine) => {
+    window.Phaser = Phaser;
 
-    window.Phaser = Phaser
-    return new Game({ ...config, parent});
-
-}
+    return new Game({
+        ...config,
+        plugins: {
+            global: [
+                {
+                    key: "magicBlockEngine",
+                    plugin: MagicBlockEnginePlugin,
+                    start: true,
+                    data: engine,
+                },
+            ],
+            ...config.plugins
+        },
+        parent,
+    });
+};
 
 export default StartGame;
+

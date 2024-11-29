@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
 import StartGame from "./main";
 import { EventBus } from "./EventBus";
 import Phaser from "phaser";
+import { useMagicBlockEngine } from "@/components/magic-block-engine-provider";
 
 export interface IRefPhaserGame {
     game: Phaser.Game | null;
@@ -15,11 +16,11 @@ interface IProps {
 export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(
     function PhaserGame({ currentActiveScene }, ref) {
         const game = useRef<Phaser.Game | null>(null!);
+        const engine = useMagicBlockEngine();
 
         useLayoutEffect(() => {
             if (game.current === null) {
-
-                game.current = StartGame("game-container");
+                game.current = StartGame("game-container", engine);
 
                 if (typeof ref === "function") {
                     ref({ game: game.current, scene: null });
@@ -36,7 +37,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(
                     }
                 }
             };
-        }, [ref]);
+        }, [ref, engine]);
 
         useEffect(() => {
             const handleGameResize = (event: any) => {
