@@ -14,7 +14,6 @@ export default class MainMenu extends Phaser.Scene {
   }
 
   init() {
-
     this.cursors = this.input.keyboard.createCursorKeys()
   }
 

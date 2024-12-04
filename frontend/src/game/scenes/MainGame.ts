@@ -1,8 +1,7 @@
 import Phaser from "phaser";
 import constants from "../config/constants";
 import { WorldConfig } from "../config/worldsConfig";
-import { MagicBlockEngine } from "@/libs/engine/magic-block-engine";
-import { MagicBlockEnginePlugin } from "../plugins/FloatingNumbers/MagicBlockEngine";
+import { PublicKey } from "@solana/web3.js";
 
 export default class MainGame extends Phaser.Scene {
     private gameFieldScene!: Phaser.Scene;
@@ -10,14 +9,34 @@ export default class MainGame extends Phaser.Scene {
     private pauseScene!: Phaser.Scene;
     private gameOverScene!: Phaser.Scene;
     private world!: WorldConfig;
-    private engine: MagicBlockEngine;
+    private mapPda!: PublicKey;
+    private playerPda!: PublicKey;
+    private enemiesPda!: PublicKey;
+    private bulletsPda!: PublicKey;
+
+    private initX!: number;
+    private initY!: number;
 
     constructor() {
         super(constants.SCENES.GAME_MAIN);
     }
 
-    init(data: { world: WorldConfig }) {
+    init(data: {
+        world: WorldConfig;
+        mapPda: PublicKey;
+        playerPda: PublicKey;
+        enemiesPda: PublicKey;
+        bulletsPda: PublicKey;
+        x: number;
+        y: number;
+    }) {
         this.world = data.world;
+        this.mapPda = data.mapPda;
+        this.playerPda = data.playerPda;
+        this.enemiesPda = data.enemiesPda;
+        this.bulletsPda = data.bulletsPda;
+        this.initX = data.x;
+        this.initY = data.y;
     }
 
     create() {
@@ -26,15 +45,16 @@ export default class MainGame extends Phaser.Scene {
         this.pauseScene = this.scene.get(constants.SCENES.GAME_PAUSE);
         this.gameOverScene = this.scene.get(constants.SCENES.GAME_OVER);
 
-        this.scene.launch(constants.SCENES.GAME_FIELD, { world: this.world });
+        this.scene.launch(constants.SCENES.GAME_FIELD, {
+            world: this.world,
+            mapPda: this.mapPda,
+            playerPda: this.playerPda,
+            enemiesPda: this.enemiesPda,
+            bulletsPda: this.bulletsPda,
+            x: this.initX,
+            y: this.initY,
+        });
         this.scene.launch(constants.SCENES.GAME_UI);
-
-        // plugin
-        const plugin = this.plugins.get(
-            "magicBlockEngine"
-        ) as MagicBlockEnginePlugin;
-        this.engine = plugin.engine;
-        console.log(this.engine);
 
         this.initEvents();
     }

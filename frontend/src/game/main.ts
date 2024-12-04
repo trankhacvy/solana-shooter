@@ -23,8 +23,12 @@ const config: Phaser.Types.Core.GameConfig = {
         default: "arcade",
         arcade: {
             debug: constants.DEBUG,
-            fps: 61,
+            fps: 60,
         },
+    },
+    fps: {
+        target: 60,
+        forceSetTimeOut: true,
     },
     render: {
         pixelArt: false,
@@ -48,7 +52,7 @@ const StartGame = (parent: string, engine: MagicBlockEngine) => {
                     data: engine,
                 },
             ],
-            ...config.plugins
+            ...config.plugins,
         },
         parent,
     });

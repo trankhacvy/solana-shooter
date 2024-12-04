@@ -53,7 +53,8 @@ export default class PlayerInputController {
             this.player.stateController.setState("moveDown");
         }
 
-        if (this.player.body) this.player.body.velocity.normalize().scale(this.player.getSpeed);
+        if (this.player.body)
+            this.player.body.velocity.normalize().scale(this.player.getSpeed);
     }
 
     public addJoystick(scene: Phaser.Scene) {

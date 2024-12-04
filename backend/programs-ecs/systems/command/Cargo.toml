@@ -21,3 +21,4 @@ bolt-lang = { workspace = true }
 anchor-lang = { workspace = true }
 serde = { workspace = true }
 map = { path = "../../components/map", features = ["cpi"] }
+player = { path = "../../components/player", features = ["cpi"] }

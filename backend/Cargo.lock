@@ -743,6 +743,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "bullets"
+version = "0.1.10"
+dependencies = [
+ "anchor-lang",
+ "bolt-lang",
+]
+
+[[package]]
 name = "bumpalo"
 version = "3.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -818,12 +826,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724"
 
 [[package]]
+name = "collider"
+version = "0.1.10"
+dependencies = [
+ "anchor-lang",
+ "bolt-lang",
+ "bullets",
+ "enemies",
+ "map",
+ "player",
+]
+
+[[package]]
 name = "command"
 version = "0.1.10"
 dependencies = [
  "anchor-lang",
  "bolt-lang",
  "map",
+ "player",
  "serde",
 ]
 
@@ -963,6 +984,14 @@ name = "either"
 version = "1.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "60b1af1c220855b6ceac025d3f6ecdd2b7c4894bfe9cd9bda4fbb4bc7c0d4cf0"
+
+[[package]]
+name = "enemies"
+version = "0.1.10"
+dependencies = [
+ "anchor-lang",
+ "bolt-lang",
+]
 
 [[package]]
 name = "ephemeral-rollups-sdk"
@@ -1265,6 +1294,19 @@ version = "0.1.10"
 dependencies = [
  "anchor-lang",
  "bolt-lang",
+ "enemies",
+]
+
+[[package]]
+name = "map-positions"
+version = "0.1.10"
+dependencies = [
+ "anchor-lang",
+ "bolt-lang",
+ "bullets",
+ "enemies",
+ "map",
+ "player",
 ]
 
 [[package]]
@@ -1292,22 +1334,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "movement"
-version = "0.1.10"
-dependencies = [
- "anchor-lang",
- "bolt-lang",
- "position",
- "serde",
-]
-
-[[package]]
 name = "new-map"
 version = "0.1.10"
 dependencies = [
  "anchor-lang",
  "bolt-lang",
+ "bullets",
+ "enemies",
  "map",
+ "player",
  "serde",
 ]
 
@@ -1409,11 +1444,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "position"
+name = "player-attack"
 version = "0.1.10"
 dependencies = [
  "anchor-lang",
  "bolt-lang",
+ "bullets",
+ "enemies",
+ "map",
+ "player",
 ]
 
 [[package]]
@@ -1909,7 +1948,10 @@ version = "0.1.10"
 dependencies = [
  "anchor-lang",
  "bolt-lang",
+ "bullets",
+ "enemies",
  "map",
+ "player",
 ]
 
 [[package]]

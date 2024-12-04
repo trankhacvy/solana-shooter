@@ -269,80 +269,52 @@
         "kind": "struct",
         "fields": [
           {
-            "name": "owner",
+            "name": "authority",
             "type": "pubkey"
           },
           {
-            "name": "maximum_hit_points",
+            "name": "x",
+            "type": "f32"
+          },
+          {
+            "name": "y",
+            "type": "f32"
+          },
+          {
+            "name": "hp",
             "type": "u32"
           },
           {
-            "name": "current_hit_points",
-            "type": "u32"
-          },
-          {
-            "name": "level",
+            "name": "max_hp",
             "type": "u32"
           },
           {
             "name": "speed",
-            "type": "u32"
-          },
-          {
-            "name": "body_damage",
-            "type": "u32"
-          },
-          {
-            "name": "experience",
-            "type": "u32"
-          },
-          {
-            "name": "body_attack_time",
-            "type": "u32"
-          },
-          {
-            "name": "last_body_damage",
-            "type": "u32"
-          },
-          {
-            "name": "gold",
-            "type": "u32"
-          },
-          {
-            "name": "skill_up_points",
-            "type": "u32"
-          },
-          {
-            "name": "upgrade_points",
-            "type": "u32"
-          },
-          {
-            "name": "regeneration",
-            "type": "u32"
-          },
-          {
-            "name": "attack_rate",
-            "type": "u32"
+            "type": "f32"
           },
           {
             "name": "bullet_speed",
-            "type": "u32"
+            "type": "f32"
           },
           {
             "name": "bullet_damage",
             "type": "u32"
           },
           {
-            "name": "last_fired",
-            "type": "u32"
-          },
-          {
-            "name": "last_regeneration",
-            "type": "u32"
-          },
-          {
             "name": "radius_attack",
             "type": "u32"
+          },
+          {
+            "name": "last_body_damage",
+            "type": "u64"
+          },
+          {
+            "name": "body_attack_time",
+            "type": "u64"
+          },
+          {
+            "name": "last_fire",
+            "type": "u64"
           },
           {
             "name": "bolt_metadata",

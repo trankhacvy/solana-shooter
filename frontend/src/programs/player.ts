@@ -275,80 +275,52 @@ export type Player = {
         "kind": "struct",
         "fields": [
           {
-            "name": "owner",
+            "name": "authority",
             "type": "pubkey"
           },
           {
-            "name": "maximumHitPoints",
+            "name": "x",
+            "type": "f32"
+          },
+          {
+            "name": "y",
+            "type": "f32"
+          },
+          {
+            "name": "hp",
             "type": "u32"
           },
           {
-            "name": "currentHitPoints",
-            "type": "u32"
-          },
-          {
-            "name": "level",
+            "name": "maxHp",
             "type": "u32"
           },
           {
             "name": "speed",
-            "type": "u32"
-          },
-          {
-            "name": "bodyDamage",
-            "type": "u32"
-          },
-          {
-            "name": "experience",
-            "type": "u32"
-          },
-          {
-            "name": "bodyAttackTime",
-            "type": "u32"
-          },
-          {
-            "name": "lastBodyDamage",
-            "type": "u32"
-          },
-          {
-            "name": "gold",
-            "type": "u32"
-          },
-          {
-            "name": "skillUpPoints",
-            "type": "u32"
-          },
-          {
-            "name": "upgradePoints",
-            "type": "u32"
-          },
-          {
-            "name": "regeneration",
-            "type": "u32"
-          },
-          {
-            "name": "attackRate",
-            "type": "u32"
+            "type": "f32"
           },
           {
             "name": "bulletSpeed",
-            "type": "u32"
+            "type": "f32"
           },
           {
             "name": "bulletDamage",
             "type": "u32"
           },
           {
-            "name": "lastFired",
-            "type": "u32"
-          },
-          {
-            "name": "lastRegeneration",
-            "type": "u32"
-          },
-          {
             "name": "radiusAttack",
             "type": "u32"
+          },
+          {
+            "name": "lastBodyDamage",
+            "type": "u64"
+          },
+          {
+            "name": "bodyAttackTime",
+            "type": "u64"
+          },
+          {
+            "name": "lastFire",
+            "type": "u64"
           },
           {
             "name": "boltMetadata",

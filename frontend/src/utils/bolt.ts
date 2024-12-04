@@ -50,7 +50,7 @@ function getBoltComponentProgramName(index: number, componentsCount: number) {
     return `componentProgram${index + 1}`;
 }
 
-async function createApplySystemInstruction({
+export async function createApplySystemInstruction({
     connection,
     authority,
     systemId,

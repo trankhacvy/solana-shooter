@@ -20,3 +20,6 @@ idl-build = ["anchor-lang/idl-build"]
 bolt-lang = { workspace = true }
 anchor-lang = { workspace = true }
 map = { path = "../../components/map", features = ["cpi"] }
+player = { path = "../../components/player", features = ["cpi"] }
+enemies = { path = "../../components/enemies", features = ["cpi"] }
+bullets = { path = "../../components/bullets", features = ["cpi"] }

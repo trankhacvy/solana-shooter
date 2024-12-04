@@ -1,16 +1,20 @@
-import Player from '../../Player'
+import Player from "../../Player";
 
 export default class MoveRightState {
-  private player: Player
+    private player: Player;
 
-  constructor(player: Player) {
-    this.player = player
-  }
+    constructor(player: Player) {
+        this.player = player;
+    }
 
-  enter() {
-    !this.player.anims.isPlaying &&
-      this.player.anims.play(this.player.getCurrentType + '_right', true)
-    this.player.setVelocityX(this.player.getSpeed)
-    this.player.checkFlip()
-  }
+    enter() {
+        !this.player.anims.isPlaying &&
+            this.player.anims.play(this.player.getCurrentType + "_right", true);
+
+        this.player.moveRight();
+        // this.player.setVelocityX(this.player.getSpeed);
+        this.player.x += this.player.getSpeed;
+        // this.player.checkFlip()
+    }
 }
+
