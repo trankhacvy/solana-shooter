@@ -1,4 +1,7 @@
 use bolt_lang::*;
+use commons::constants::{
+    DEFAULT_ATTACK_TIME, DEFAULT_ENEMY_DAMAGE, DEFAULT_ENEMY_HP, DEFAULT_ENEMY_SPEED,
+};
 
 declare_id!("Em4MRJ849ui5k4hrpULtDTDR771pdxx7aS3fP8qy3DFs");
 
@@ -21,6 +24,7 @@ pub struct Enemy {
     pub max_hp: u32,
     pub damage: u32,
     pub speed: f32,
+    pub experience: u32,
     pub active: bool,
     pub last_body_damage: u64,
     pub body_attack_time: u64,
@@ -50,11 +54,11 @@ impl Enemy {
         let corner_index = (random_value % 4) as u32;
 
         let (x, y) = match corner_index {
-            0 => (0, 0),               // Top-left corner
-            1 => (bounds.0, 0),        // Top-right corner
-            2 => (0, bounds.1),        // Bottom-left corner
-            3 => (bounds.0, bounds.1), // Bottom-right corner
-            _ => unreachable!(),       // This should never happen
+            0 => (0, 0),
+            1 => (bounds.0, 0),
+            2 => (0, bounds.1),
+            3 => (bounds.0, bounds.1),
+            _ => unreachable!(),
         };
 
         Self {
@@ -62,13 +66,14 @@ impl Enemy {
             wave_id,
             x: x as f32,
             y: y as f32,
-            hp: 10,
-            max_hp: 10,
-            damage: 5,
-            speed: 30.0,
+            hp: DEFAULT_ENEMY_HP,
+            max_hp: DEFAULT_ENEMY_HP,
+            damage: DEFAULT_ENEMY_DAMAGE,
+            speed: DEFAULT_ENEMY_SPEED,
+            experience: 2,
             active: true,
             last_body_damage: 0,
-            body_attack_time: 1,
+            body_attack_time: DEFAULT_ATTACK_TIME,
         }
     }
 
@@ -79,6 +84,10 @@ impl Enemy {
         } else {
             self.hp -= damage;
         }
+    }
+
+    pub fn is_dead(&self) -> bool {
+        !self.active
     }
 }
 
@@ -94,6 +103,7 @@ pub fn xorshift64(seed: u64) -> u64 {
 #[derive(Default)]
 pub struct Enemies {
     pub map: Pubkey,
+    pub dead: u32,
     #[max_len(40)]
     pub enemies: Vec<Enemy>,
 }

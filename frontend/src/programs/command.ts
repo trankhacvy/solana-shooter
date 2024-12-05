@@ -161,12 +161,34 @@ export type Command = {
             "type": "u32"
           },
           {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "mapStatus"
+              }
+            }
+          },
+          {
             "name": "boltMetadata",
             "type": {
               "defined": {
                 "name": "boltMetadata"
               }
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "mapStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ready"
+          },
+          {
+            "name": "over"
           }
         ]
       }
@@ -199,6 +221,18 @@ export type Command = {
           {
             "name": "speed",
             "type": "f32"
+          },
+          {
+            "name": "level",
+            "type": "u32"
+          },
+          {
+            "name": "experience",
+            "type": "u32"
+          },
+          {
+            "name": "requiredExperience",
+            "type": "u32"
           },
           {
             "name": "bulletSpeed",

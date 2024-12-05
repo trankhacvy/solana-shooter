@@ -13,7 +13,6 @@ export default class MoveDownState {
 
         this.player.moveDown();
         // this.player.setVelocityY(this.player.getSpeed);
-        console.log("this.player.getSpeed", this.player.getSpeed);
         this.player.y += this.player.getSpeed;
     }
 }

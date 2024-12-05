@@ -186,6 +186,10 @@
             "type": "pubkey"
           },
           {
+            "name": "dead",
+            "type": "u32"
+          },
+          {
             "name": "enemies",
             "type": {
               "vec": {
@@ -242,6 +246,10 @@
           {
             "name": "speed",
             "type": "f32"
+          },
+          {
+            "name": "experience",
+            "type": "u32"
           },
           {
             "name": "active",
@@ -330,12 +338,34 @@
             "type": "u32"
           },
           {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "MapStatus"
+              }
+            }
+          },
+          {
             "name": "bolt_metadata",
             "type": {
               "defined": {
                 "name": "BoltMetadata"
               }
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MapStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Ready"
+          },
+          {
+            "name": "Over"
           }
         ]
       }
@@ -368,6 +398,18 @@
           {
             "name": "speed",
             "type": "f32"
+          },
+          {
+            "name": "level",
+            "type": "u32"
+          },
+          {
+            "name": "experience",
+            "type": "u32"
+          },
+          {
+            "name": "required_experience",
+            "type": "u32"
           },
           {
             "name": "bullet_speed",

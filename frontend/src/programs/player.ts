@@ -299,6 +299,18 @@ export type Player = {
             "type": "f32"
           },
           {
+            "name": "level",
+            "type": "u32"
+          },
+          {
+            "name": "experience",
+            "type": "u32"
+          },
+          {
+            "name": "requiredExperience",
+            "type": "u32"
+          },
+          {
             "name": "bulletSpeed",
             "type": "f32"
           },

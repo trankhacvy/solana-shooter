@@ -13,6 +13,20 @@ pub struct Bullet {
     pub active: bool,
 }
 
+impl Bullet {
+    pub fn spawn(id: u32, x: f32, y: f32, speed: f32, enemy_id: u32, damage: u32) -> Self {
+        Self {
+            id,
+            x,
+            y,
+            speed,
+            enemy_id,
+            active: true,
+            damage,
+        }
+    }
+}
+
 #[component(delegate)]
 #[derive(Default)]
 pub struct Bullets {

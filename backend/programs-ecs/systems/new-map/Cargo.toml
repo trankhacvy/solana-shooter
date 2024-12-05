@@ -24,3 +24,4 @@ map = { path = "../../components/map", features = ["cpi"] }
 player = { path = "../../components/player", features = ["cpi"] }
 enemies = { path = "../../components/enemies", features = ["cpi"] }
 bullets = { path = "../../components/bullets", features = ["cpi"] }
+commons = { path = "../../../crates/commons" }

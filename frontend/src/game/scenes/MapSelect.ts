@@ -14,7 +14,6 @@ import {
     createEnemiesComponent,
     createMap,
     createPlayer,
-    getMapAccount,
     getPlayerAccount,
 } from "@/libs/connection";
 import { PLAYER_COMPONENT_PROGRAM_ID } from "@/libs/programs";
@@ -54,9 +53,9 @@ export default class MapSelect extends Phaser.Scene {
 
         this.addWorlds();
         this.addBackground();
-        this.addTunnel();
-        this.addCirclePortal();
-        this.addDeepZoom();
+        // this.addTunnel();
+        // this.addCirclePortal();
+        // this.addDeepZoom();
         this.addTitleBackground();
         this.addTitle("");
         this.addButtons();
@@ -91,53 +90,53 @@ export default class MapSelect extends Phaser.Scene {
         this.background.tilePositionX += 0.4;
     }
 
-    private addTunnel(): void {
-        const { width, height } = this.sys.game.canvas;
+    // private addTunnel(): void {
+    //     const { width, height } = this.sys.game.canvas;
 
-        this.tunnel = this.add
-            .tileSprite(0, 0, width, height, "tunnel")
-            .setOrigin(0, 0);
-    }
+    //     this.tunnel = this.add
+    //         .tileSprite(0, 0, width, height, "tunnel")
+    //         .setOrigin(0, 0);
+    // }
 
-    private animateTunnel(): void {
-        this.tunnel.tilePositionX -= 0.5;
-    }
+    // private animateTunnel(): void {
+    //     this.tunnel.tilePositionX -= 0.5;
+    // }
 
-    private addCirclePortal(): void {
-        const circle = this.add
-            .circle(0, 0, 200, 0x6c_fc_f9)
-            .setOrigin(0.5, 0.5);
+    // private addCirclePortal(): void {
+    //     const circle = this.add
+    //         .circle(0, 0, 200, 0x6c_fc_f9)
+    //         .setOrigin(0.5, 0.5);
 
-        new Anchor(circle, {
-            centerX: "right-500",
-            centerY: "center",
-        });
-    }
+    //     new Anchor(circle, {
+    //         centerX: "right-500",
+    //         centerY: "center",
+    //     });
+    // }
 
-    private addDeepZoom(): void {
-        this.deepZoom = this.add.sprite(0, 0, "deepzoom", "deepzoom0028");
+    // private addDeepZoom(): void {
+    //     this.deepZoom = this.add.sprite(0, 0, "deepzoom", "deepzoom0028");
 
-        this.deepZoom.setDepth(10);
+    //     this.deepZoom.setDepth(10);
 
-        this.deepZoom.anims.create({
-            key: "start",
-            frames: this.anims.generateFrameNames("deepzoom", {
-                prefix: "deepzoom",
-                start: 1,
-                end: 28,
-                zeroPad: 4,
-            }),
-            frameRate: 10,
-            repeat: -1,
-        });
+    //     this.deepZoom.anims.create({
+    //         key: "start",
+    //         frames: this.anims.generateFrameNames("deepzoom", {
+    //             prefix: "deepzoom",
+    //             start: 1,
+    //             end: 28,
+    //             zeroPad: 4,
+    //         }),
+    //         frameRate: 10,
+    //         repeat: -1,
+    //     });
 
-        this.deepZoom.play("start");
+    //     this.deepZoom.play("start");
 
-        new Anchor(this.deepZoom, {
-            centerX: "right-500",
-            centerY: "center",
-        });
-    }
+    //     new Anchor(this.deepZoom, {
+    //         centerX: "right-500",
+    //         centerY: "center",
+    //     });
+    // }
 
     private addTitleBackground(): void {
         const titleBackground = this.add
@@ -279,10 +278,7 @@ export default class MapSelect extends Phaser.Scene {
             );
         }
 
-        // const mapPda = await createMap(this.engine);
-        // const playerPda = await createPlayer(this.engine);
-        // const enemiesPda = await createEnemiesComponent(this.engine);
-        // const bulletsPda = await createBulletsComponent(this.engine);
+        await sleep(1200);
 
         await applyNewMapSystem(
             this.engine,
@@ -291,7 +287,6 @@ export default class MapSelect extends Phaser.Scene {
             enemiesPda,
             bulletsPda
         );
-        await sleep(1200);
 
         const cmpPda = FindComponentPda({
             entity: playerPda,
@@ -351,7 +346,7 @@ export default class MapSelect extends Phaser.Scene {
         }
 
         this.animateBackground();
-        this.animateTunnel();
+        // this.animateTunnel();
     }
 }
 

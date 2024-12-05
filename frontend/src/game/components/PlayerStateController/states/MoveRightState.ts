@@ -10,9 +10,8 @@ export default class MoveRightState {
     enter() {
         !this.player.anims.isPlaying &&
             this.player.anims.play(this.player.getCurrentType + "_right", true);
-
+        console.log("move right");
         this.player.moveRight();
-        // this.player.setVelocityX(this.player.getSpeed);
         this.player.x += this.player.getSpeed;
         // this.player.checkFlip()
     }

@@ -604,6 +604,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "bolt-types"
+version = "0.1.10"
+dependencies = [
+ "anchor-lang",
+ "bolt-lang",
+]
+
+[[package]]
 name = "bolt-utils"
 version = "0.1.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -748,6 +756,7 @@ version = "0.1.10"
 dependencies = [
  "anchor-lang",
  "bolt-lang",
+ "commons",
 ]
 
 [[package]]
@@ -832,6 +841,7 @@ dependencies = [
  "anchor-lang",
  "bolt-lang",
  "bullets",
+ "commons",
  "enemies",
  "map",
  "player",
@@ -847,6 +857,10 @@ dependencies = [
  "player",
  "serde",
 ]
+
+[[package]]
+name = "commons"
+version = "0.1.0"
 
 [[package]]
 name = "console_error_panic_hook"
@@ -991,6 +1005,7 @@ version = "0.1.10"
 dependencies = [
  "anchor-lang",
  "bolt-lang",
+ "commons",
 ]
 
 [[package]]
@@ -1294,6 +1309,7 @@ version = "0.1.10"
 dependencies = [
  "anchor-lang",
  "bolt-lang",
+ "commons",
  "enemies",
 ]
 
@@ -1340,6 +1356,7 @@ dependencies = [
  "anchor-lang",
  "bolt-lang",
  "bullets",
+ "commons",
  "enemies",
  "map",
  "player",
@@ -1441,6 +1458,7 @@ version = "0.1.10"
 dependencies = [
  "anchor-lang",
  "bolt-lang",
+ "commons",
 ]
 
 [[package]]
@@ -1948,10 +1966,8 @@ version = "0.1.10"
 dependencies = [
  "anchor-lang",
  "bolt-lang",
- "bullets",
  "enemies",
  "map",
- "player",
 ]
 
 [[package]]

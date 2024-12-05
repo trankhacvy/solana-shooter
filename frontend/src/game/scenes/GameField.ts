@@ -18,15 +18,13 @@ import {
     BULLETS_COMPONENT_PROGRAM_ID,
     BulletsAccount,
     ENEMIES_COMPONENT_PROGRAM_ID,
-    EnemiesAccount,
     getBulletsComponentOnEphem,
-    getEnemiesComponentOnEphem,
-    getPlayerComponentOnEphem,
     MAP_COMPONENT_PROGRAM_ID,
     PLAYER_COMPONENT_PROGRAM_ID,
-    PlayerAccount,
 } from "@/libs/programs";
 import { FindComponentPda } from "@magicblock-labs/bolt-sdk";
+import EnemyController from "../components/EnemyV2/EnemyController";
+import { BulletController } from "../components/Bullet";
 
 export default class GameField extends Phaser.Scene {
     private controls!: ControlsType;
@@ -52,11 +50,12 @@ export default class GameField extends Phaser.Scene {
     private initX: number;
     private initY: number;
 
-    remoteRef: Phaser.GameObjects.Rectangle;
-    private enemies: Record<string, Phaser.GameObjects.Container> = {};
     private bullets: Record<string, Phaser.GameObjects.Rectangle> = {};
 
     private worker: Worker;
+
+    private enemyController: EnemyController;
+    private bulletController: BulletController;
 
     constructor() {
         super(constants.SCENES.GAME_FIELD);
@@ -133,16 +132,6 @@ export default class GameField extends Phaser.Scene {
             constants.PLAYER.DEFAULT.FRAME
         );
 
-        // fake player
-        this.remoteRef = this.add.rectangle(
-            (constants.LEVEL.WIDTH * constants.LEVEL.TILE_SIZE) / 2,
-            (constants.LEVEL.HEIGHT * constants.LEVEL.TILE_SIZE) / 2,
-            120,
-            120
-        );
-        this.remoteRef.setStrokeStyle(1, 0xff00ff);
-        this.remoteRef.setDepth(8);
-
         this.cheats = new Cheats(this, this.player);
         this.cheats.enableCheat(constants.CHEATS);
 
@@ -157,6 +146,19 @@ export default class GameField extends Phaser.Scene {
         this.wavesController = new WavesController(this, this.player);
         const waves = this.wavesController.getWaves(this.world);
         this.allEnemies = this.wavesController.getAllEnemies;
+
+        this.enemyController = new EnemyController(
+            this,
+            this.engine,
+            this.enemiesPda
+        );
+
+        this.bulletController = new BulletController(
+            this,
+            this.engine,
+            this.bulletsPda,
+            this.player
+        );
 
         this.physics.add.collider(
             this.player,
@@ -204,14 +206,11 @@ export default class GameField extends Phaser.Scene {
 
         this.addSound();
         this.addEvents();
-        this.listenPlayer();
-        this.listEnemies();
-        this.listenBullet();
 
         this.worker = new Worker(new URL("../../libs/worker", import.meta.url));
         this.worker.onmessage = (event: MessageEvent<string>) => {
             this.engine.waitSignatureConfirmation(
-                "tick",
+                "tickSystem",
                 event.data,
                 this.engine.getConnectionEphem(),
                 "confirmed"
@@ -279,7 +278,7 @@ export default class GameField extends Phaser.Scene {
 
         this.player.update(time, delta);
 
-        this.worldController.update();
+        // this.worldController.update();
 
         this.cheats.update();
 
@@ -289,140 +288,8 @@ export default class GameField extends Phaser.Scene {
             this.tryToApplyTickSystem();
         }
 
-        Object.values(this.enemies).forEach((enemy) => {
-            const x = enemy.getData("serverX");
-            const y = enemy.getData("serverY");
-            const hp = enemy.getData("hp");
-            const active = enemy.getData("active");
-
-            if (!!x && !!y) {
-                enemy.x = x; //Phaser.Math.Linear(enemy.x, x, 0.2);
-                enemy.y = y; //Phaser.Math.Linear(enemy.y, y, 0.2);
-
-                (enemy?.list?.[0] as Phaser.GameObjects.Arc)!.fillColor = active
-                    ? 0x00ff44
-                    : 0xff00ff;
-                (enemy?.list?.[1] as Phaser.GameObjects.Text)?.setText(hp);
-            }
-        });
-
-        Object.values(this.bullets).forEach((enemy) => {
-            const x = enemy.getData("serverX");
-            const y = enemy.getData("serverY");
-            const active = enemy.getData("active");
-
-            if (!!x && !!y) {
-                enemy.x = Phaser.Math.Linear(enemy.x, x, 0.2);
-                enemy.y = Phaser.Math.Linear(enemy.y, y, 0.2);
-                enemy.fillColor = active ? 0xff0000 : 0x1133ff;
-            }
-        });
-    }
-
-    listenPlayer() {
-        if (!this.engine || !this.playerCmpPda) return;
-
-        this.engine.subscribeToEphemAccountInfo(
-            this.playerCmpPda,
-            (accountInfo) => {
-                // If the game doesn't exist in the ephemeral
-                if (!accountInfo) {
-                    console.log("account not found");
-                    return;
-                }
-                // If we found the game, decode its state
-                const coder = getPlayerComponentOnEphem(this.engine).coder;
-
-                const data = coder.accounts.decode<PlayerAccount>(
-                    "player",
-                    accountInfo.data
-                );
-
-                if (data) {
-                    this.remoteRef.x = data.x;
-                    this.remoteRef.y = data.y;
-                    this.player.setCurrentHitPoints = data.hp;
-                    console.log("HP", data.hp);
-                }
-            }
-        );
-    }
-
-    listEnemies() {
-        if (!this.engine || !this.enemiesCmpPda) return;
-
-        this.engine.subscribeToEphemAccountInfo(
-            this.enemiesCmpPda,
-            (accountInfo) => {
-                // If the game doesn't exist in the ephemeral
-                if (!accountInfo) {
-                    console.log("account not found");
-                    return;
-                }
-                // If we found the game, decode its state
-                const coder = getEnemiesComponentOnEphem(this.engine).coder;
-                const data = coder.accounts.decode<EnemiesAccount>(
-                    "enemies",
-                    accountInfo.data
-                );
-                if (data) {
-                    const enemies = data.enemies;
-                    const enemyIds = enemies.map((bullet) => bullet.id);
-
-                    console.log("tick enemy", enemies.length);
-
-                    Object.keys(this.enemies).forEach((id) => {
-                        if (!enemyIds.includes(id)) {
-                            this.enemies[id].destroy();
-                            delete this.enemies[id];
-                        }
-                    });
-
-                    enemies.forEach((enemy) => {
-                        if (this.enemies[enemy.id]) {
-                            this.enemies[enemy.id].setData("serverX", enemy.x);
-                            this.enemies[enemy.id].setData("serverY", enemy.y);
-                            this.enemies[enemy.id].setData("hp", enemy.hp);
-                            this.enemies[enemy.id].setData(
-                                "active",
-                                enemy.active
-                            );
-                        } else {
-                            const circleGroup = this.add.container(
-                                enemy.x,
-                                enemy.y
-                            );
-
-                            const entity = this.add.circle(
-                                20,
-                                20,
-                                20,
-                                0x00ff44
-                            );
-                            circleGroup.add(entity);
-
-                            const text = this.add
-                                .text(20, 20, enemy.hp, {
-                                    fontSize: "24px",
-                                    color: "#ffffff",
-                                    fontFamily: "Arial",
-                                })
-                                .setOrigin(0.5, 0.5);
-                            circleGroup.add(text);
-
-                            // entity.setStrokeStyle(1, 0x00eeff);
-                            circleGroup.setDepth(8);
-                            circleGroup.setData("serverX", enemy.x);
-                            circleGroup.setData("serverY", enemy.y);
-                            circleGroup.setData("hp", enemy.hp);
-                            circleGroup.setData("active", enemy.active);
-
-                            this.enemies[String(enemy.id)] = circleGroup;
-                        }
-                    });
-                }
-            }
-        );
+        this.enemyController.update();
+        this.bulletController.update();
     }
 
     listenBullet() {
@@ -445,7 +312,6 @@ export default class GameField extends Phaser.Scene {
                 if (data) {
                     const bullets = data.bulelts;
                     const bulletIds = bullets.map((bullet) => bullet.id);
-                    console.log("enemy nullets len: ", bullets.length);
 
                     Object.keys(this.bullets).forEach((id) => {
                         if (!bulletIds.includes(id)) {
@@ -492,71 +358,6 @@ export default class GameField extends Phaser.Scene {
         );
     }
 
-    listenMap() {
-        // if (!this.engine || !this.mapCompPda) return;
-        // this.engine.subscribeToEphemAccountInfo(
-        //     this.mapCompPda,
-        //     (accountInfo) => {
-        //         if (!accountInfo) {
-        //             return;
-        //         }
-        //         const coder = getMapComponentOnEphem(this.engine).coder;
-        //         const data = coder.accounts.decode<MapAccount>(
-        //             "map",
-        //             accountInfo.data
-        //         );
-        //         if (data) {
-        //             const enemies = data.enemies;
-        //             enemies.forEach((enemy) => {
-        //                 if (this.enemies[enemy.id]) {
-        //                     this.enemies[enemy.id].setData("serverX", enemy.x);
-        //                     this.enemies[enemy.id].setData("serverY", enemy.y);
-        //                 } else {
-        //                     const entity = this.add.circle(
-        //                         enemy.x,
-        //                         enemy.y,
-        //                         30,
-        //                         30,
-        //                         0x00ff44
-        //                     );
-        //                     entity.setStrokeStyle(1, 0x00eeff);
-        //                     entity.setDepth(8);
-        //                     entity.setData("serverX", enemy.x);
-        //                     entity.setData("serverY", enemy.y);
-        //                     this.enemies[String(enemy.id)] = entity;
-        //                 }
-        //             });
-        //             const bullet = data.bullets;
-        //             bullet.forEach((bullet) => {
-        //                 if (this.enemies[bullet.id]) {
-        //                     this.enemies[bullet.id].setData(
-        //                         "serverX",
-        //                         bullet.x
-        //                     );
-        //                     this.enemies[bullet.id].setData(
-        //                         "serverY",
-        //                         bullet.y
-        //                     );
-        //                 } else {
-        //                     const entity = this.add.circle(
-        //                         bullet.x,
-        //                         bullet.y,
-        //                         15,
-        //                         14,
-        //                         0xff0000
-        //                     );
-        //                     entity.setStrokeStyle(1, 0x00eeff);
-        //                     entity.setDepth(8);
-        //                     entity.setData("serverX", bullet.x);
-        //                     entity.setData("serverY", bullet.y);
-        //                     this.enemies[String(bullet.id)] = entity;
-        //                 }
-        //             });
-        //         }
-        //     }
-        // );
-    }
-
     tryToApplyTickSystem() {
         if (
             !this.engine ||
@@ -567,26 +368,16 @@ export default class GameField extends Phaser.Scene {
         )
             return;
 
-        console.log("tryToApplyTickSystem");
-
-        // applyColliderSystem(
-        //     this.engine,
-        //     this.mapPda,
-        //     this.playerPda,
-        //     this.enemiesPda,
-        //     this.bulletsPda
-        // );
-
-        // this.worker.postMessage({
-        //     type: "apply-tick",
-        //     data: {
-        //         mapPda: this.mapPda.toBase58(),
-        //         playerPda: this.playerPda.toBase58(),
-        //         enemiesPda: this.enemiesPda.toBase58(),
-        //         bulletsPda: this.bulletsPda.toBase58(),
-        //         sessionKey: this.engine.getSessionKey().secretKey,
-        //     },
-        // });
+        this.worker.postMessage({
+            type: "apply-tick",
+            data: {
+                mapPda: this.mapPda.toBase58(),
+                playerPda: this.playerPda.toBase58(),
+                enemiesPda: this.enemiesPda.toBase58(),
+                bulletsPda: this.bulletsPda.toBase58(),
+                sessionKey: this.engine.getSessionKey().secretKey,
+            },
+        });
     }
 }
 

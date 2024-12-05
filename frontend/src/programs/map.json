@@ -352,12 +352,34 @@
             "type": "u32"
           },
           {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "MapStatus"
+              }
+            }
+          },
+          {
             "name": "bolt_metadata",
             "type": {
               "defined": {
                 "name": "BoltMetadata"
               }
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MapStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Ready"
+          },
+          {
+            "name": "Over"
           }
         ]
       }

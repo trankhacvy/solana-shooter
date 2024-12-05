@@ -14,29 +14,23 @@ export type Tick = {
   },
   "instructions": [
     {
-      "name": "execute4",
+      "name": "execute2",
       "discriminator": [
-        238,
-        9,
-        12,
-        2,
-        93,
-        70,
-        237,
-        115
+        105,
+        108,
+        50,
+        190,
+        253,
+        180,
+        77,
+        227
       ],
       "accounts": [
         {
           "name": "map"
         },
         {
-          "name": "player"
-        },
-        {
           "name": "enemies"
-        },
-        {
-          "name": "bullets"
         },
         {
           "name": "authority",
@@ -47,19 +41,6 @@ export type Tick = {
     }
   ],
   "accounts": [
-    {
-      "name": "bullets",
-      "discriminator": [
-        61,
-        112,
-        49,
-        3,
-        204,
-        202,
-        73,
-        244
-      ]
-    },
     {
       "name": "enemies",
       "discriminator": [
@@ -85,19 +66,6 @@ export type Tick = {
         180,
         244
       ]
-    },
-    {
-      "name": "player",
-      "discriminator": [
-        205,
-        222,
-        112,
-        7,
-        165,
-        155,
-        206,
-        218
-      ]
     }
   ],
   "types": [
@@ -117,72 +85,6 @@ export type Tick = {
       }
     },
     {
-      "name": "bullet",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "id",
-            "type": "u32"
-          },
-          {
-            "name": "x",
-            "type": "f32"
-          },
-          {
-            "name": "y",
-            "type": "f32"
-          },
-          {
-            "name": "speed",
-            "type": "f32"
-          },
-          {
-            "name": "enemyId",
-            "type": "u32"
-          },
-          {
-            "name": "damage",
-            "type": "u32"
-          },
-          {
-            "name": "active",
-            "type": "bool"
-          }
-        ]
-      }
-    },
-    {
-      "name": "bullets",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "map",
-            "type": "pubkey"
-          },
-          {
-            "name": "bulelts",
-            "type": {
-              "vec": {
-                "defined": {
-                  "name": "bullet"
-                }
-              }
-            }
-          },
-          {
-            "name": "boltMetadata",
-            "type": {
-              "defined": {
-                "name": "boltMetadata"
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "enemies",
       "type": {
         "kind": "struct",
@@ -190,6 +92,10 @@ export type Tick = {
           {
             "name": "map",
             "type": "pubkey"
+          },
+          {
+            "name": "dead",
+            "type": "u32"
           },
           {
             "name": "enemies",
@@ -248,6 +154,10 @@ export type Tick = {
           {
             "name": "speed",
             "type": "f32"
+          },
+          {
+            "name": "experience",
+            "type": "u32"
           },
           {
             "name": "active",
@@ -336,6 +246,14 @@ export type Tick = {
             "type": "u32"
           },
           {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "mapStatus"
+              }
+            }
+          },
+          {
             "name": "boltMetadata",
             "type": {
               "defined": {
@@ -347,65 +265,15 @@ export type Tick = {
       }
     },
     {
-      "name": "player",
+      "name": "mapStatus",
       "type": {
-        "kind": "struct",
-        "fields": [
+        "kind": "enum",
+        "variants": [
           {
-            "name": "authority",
-            "type": "pubkey"
+            "name": "ready"
           },
           {
-            "name": "x",
-            "type": "f32"
-          },
-          {
-            "name": "y",
-            "type": "f32"
-          },
-          {
-            "name": "hp",
-            "type": "u32"
-          },
-          {
-            "name": "maxHp",
-            "type": "u32"
-          },
-          {
-            "name": "speed",
-            "type": "f32"
-          },
-          {
-            "name": "bulletSpeed",
-            "type": "f32"
-          },
-          {
-            "name": "bulletDamage",
-            "type": "u32"
-          },
-          {
-            "name": "radiusAttack",
-            "type": "u32"
-          },
-          {
-            "name": "lastBodyDamage",
-            "type": "u64"
-          },
-          {
-            "name": "bodyAttackTime",
-            "type": "u64"
-          },
-          {
-            "name": "lastFire",
-            "type": "u64"
-          },
-          {
-            "name": "boltMetadata",
-            "type": {
-              "defined": {
-                "name": "boltMetadata"
-              }
-            }
+            "name": "over"
           }
         ]
       }

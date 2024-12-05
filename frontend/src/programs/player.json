@@ -293,6 +293,18 @@
             "type": "f32"
           },
           {
+            "name": "level",
+            "type": "u32"
+          },
+          {
+            "name": "experience",
+            "type": "u32"
+          },
+          {
+            "name": "required_experience",
+            "type": "u32"
+          },
+          {
             "name": "bullet_speed",
             "type": "f32"
           },

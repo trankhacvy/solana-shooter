@@ -192,6 +192,10 @@ export type NewMap = {
             "type": "pubkey"
           },
           {
+            "name": "dead",
+            "type": "u32"
+          },
+          {
             "name": "enemies",
             "type": {
               "vec": {
@@ -248,6 +252,10 @@ export type NewMap = {
           {
             "name": "speed",
             "type": "f32"
+          },
+          {
+            "name": "experience",
+            "type": "u32"
           },
           {
             "name": "active",
@@ -336,12 +344,34 @@ export type NewMap = {
             "type": "u32"
           },
           {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "mapStatus"
+              }
+            }
+          },
+          {
             "name": "boltMetadata",
             "type": {
               "defined": {
                 "name": "boltMetadata"
               }
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "mapStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ready"
+          },
+          {
+            "name": "over"
           }
         ]
       }
@@ -374,6 +404,18 @@ export type NewMap = {
           {
             "name": "speed",
             "type": "f32"
+          },
+          {
+            "name": "level",
+            "type": "u32"
+          },
+          {
+            "name": "experience",
+            "type": "u32"
+          },
+          {
+            "name": "requiredExperience",
+            "type": "u32"
           },
           {
             "name": "bulletSpeed",

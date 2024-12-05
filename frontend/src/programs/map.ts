@@ -358,12 +358,34 @@ export type Map = {
             "type": "u32"
           },
           {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "mapStatus"
+              }
+            }
+          },
+          {
             "name": "boltMetadata",
             "type": {
               "defined": {
                 "name": "boltMetadata"
               }
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "mapStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ready"
+          },
+          {
+            "name": "over"
           }
         ]
       }

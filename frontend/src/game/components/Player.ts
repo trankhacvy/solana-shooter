@@ -15,6 +15,12 @@ import { MagicBlockEngine } from "@/libs/engine/magic-block-engine";
 import { MagicBlockQueue } from "@/libs/engine/magic-block-queue";
 import { applyCommandSystem } from "@/libs/connection";
 import { PublicKey } from "@solana/web3.js";
+import { FindComponentPda } from "@magicblock-labs/bolt-sdk";
+import {
+    getPlayerComponentOnEphem,
+    PLAYER_COMPONENT_PROGRAM_ID,
+    PlayerAccount,
+} from "@/libs/programs";
 
 export default class Player extends Actor {
     public stateController: PlayerStateController;
@@ -45,12 +51,10 @@ export default class Player extends Actor {
     private engine!: MagicBlockEngine;
     private mapPda: PublicKey;
     private playerPda: PublicKey;
+    private playerCmpPda: PublicKey;
     private queue!: MagicBlockQueue;
 
-    private worker: Worker;
-
-    private elapsedTime = 0;
-    private fixedTimeStep = 1000 / 50;
+    private playerRef: Phaser.GameObjects.Rectangle;
 
     constructor(
         scene: Phaser.Scene,
@@ -126,8 +130,23 @@ export default class Player extends Actor {
         this.queue = new MagicBlockQueue(engine);
         this.mapPda = mapPda;
         this.playerPda = playerPda;
+        this.playerCmpPda = FindComponentPda({
+            entity: this.playerPda,
+            componentId: PLAYER_COMPONENT_PROGRAM_ID,
+        });
 
-        this.worker = new Worker(new URL("../../libs/worker", import.meta.url));
+        // for debug
+        this.playerRef = this.scene.add.rectangle(
+            x,
+            y,
+            this.width,
+            this.height
+        );
+        this.playerRef.setStrokeStyle(1, 0xff00ff);
+        this.playerRef.setDepth(8);
+        // this.playerRef.setVisible(false);
+
+        this.listenPlayer();
     }
 
     public takeDamage(value?: number) {
@@ -304,7 +323,7 @@ export default class Player extends Actor {
             return;
         }
 
-        this.levelController.update();
+        // this.levelController.update();
         this.inputController.update();
 
         this.radiusAttack.setPosition(this.x, this.y);
@@ -320,103 +339,144 @@ export default class Player extends Actor {
         this.healthBar.animateToFill(
             this.getCurrentHitPoints / this.getMaximumHitPoints
         );
-
-        // this.elapsedTime += delta;
-        // while (this.elapsedTime >= this.fixedTimeStep) {
-        //     this.elapsedTime -= this.fixedTimeStep;
-        //     this.fixedTick(time, this.fixedTimeStep);
-        // }
     }
 
-    private fixedTick(_time: number, _delta: number) {
-        // this.inputController.update();
+    private listenPlayer() {
+        if (!this.engine || !this.playerCmpPda) return;
+
+        this.engine.subscribeToEphemAccountInfo(
+            this.playerCmpPda,
+            (accountInfo) => {
+                // If the game doesn't exist in the ephemeral
+                if (!accountInfo) {
+                    console.log("account not found");
+                    return;
+                }
+                // If we found the game, decode its state
+                const coder = getPlayerComponentOnEphem(this.engine).coder;
+
+                const data = coder.accounts.decode<PlayerAccount>(
+                    "player",
+                    accountInfo.data
+                );
+
+                if (data) {
+                    this.playerRef.x = data.x;
+                    this.playerRef.y = data.y;
+
+                    this.updatePlayerData(data);
+                }
+            }
+        );
+    }
+
+    private updatePlayerData(data: PlayerAccount) {
+        // update
+        this.healthBar.animateToFill(data.hp / data.maxHp);
+
+        // exp
+        console.log("exp: ", this.experience, data.experience);
+        if (data.requiredExperience !== this.experienceRequired) {
+            this.setExperienceRequired = data.requiredExperience;
+        }
+
+        if (data.experience !== this.experience) {
+            this.setExperience = data.experience;
+
+            this.scene.events.emit(
+                constants.EVENTS.UI.UPDATE_EXP_LEVEL,
+                this.getExperience,
+                this.getExperienceRequired
+            );
+        }
+
+        // level
+        console.log("level", this.level, data.level);
+        this.level = data.level;
+        if (this.level === 0) {
+            this.level = data.level;
+        } else if (this.level !== data.level) {
+            this.level = data.level;
+            this.experience = 0;
+
+            this.scene.events.emit(
+                constants.EVENTS.UI.UPDATE_PLAYER_LEVEL,
+                this.getLevel.toString()
+            );
+
+            this.scene.events.emit(
+                constants.EVENTS.UI.UPDATE_EXP_LEVEL,
+                this.getExperience,
+                this.getExperienceRequired
+            );
+        }
     }
 
     public moveLeft() {
-        applyCommandSystem(
-            this.engine,
-            this.queue,
-            this.mapPda,
-            this.playerPda,
-            {
-                command: {
-                    Move: { dx: -1, dy: 0 },
-                },
-            }
-        );
+        this.move({ dx: -1, dy: 0 });
 
-        // this.worker.postMessage({
-        //     type: "apply-command",
-        //     data: {
-        //         mapPda: this.mapPda.toBase58(),
-        //         playerPda: this.playerPda.toBase58(),
-        //         arg: {
-        //             command: {
-        //                 Move: { dx: -1, dy: 0 },
-        //             },
+        // applyCommandSystem(
+        //     this.engine,
+        //     this.queue,
+        //     this.mapPda,
+        //     this.playerPda,
+        //     {
+        //         command: {
+        //             Move: { dx: -1, dy: 0 },
         //         },
-        //         sessionKey: this.engine.getSessionKey().secretKey,
-        //     },
-        // });
+        //     }
+        // );
     }
 
     public moveRight() {
-        applyCommandSystem(
-            this.engine,
-            this.queue,
-            this.mapPda,
-            this.playerPda,
-            {
-                command: {
-                    Move: { dx: 1, dy: 0 },
-                },
-            }
-        );
+        this.move({ dx: 1, dy: 0 });
 
-        // this.worker.postMessage({
-        //     type: "apply-command",
-        //     data: {
-        //         mapPda: this.mapPda.toBase58(),
-        //         playerPda: this.playerPda.toBase58(),
-        //         arg: {
-        //             command: {
-        //                 Move: { dx: 1, dy: 0 },
-        //             },
+        // applyCommandSystem(
+        //     this.engine,
+        //     this.queue,
+        //     this.mapPda,
+        //     this.playerPda,
+        //     {
+        //         command: {
+        //             Move: { dx: 1, dy: 0 },
         //         },
-        //         sessionKey: this.engine.getSessionKey().secretKey,
-        //     },
-        // });
+        //     }
+        // );
     }
 
     public moveUp() {
-        applyCommandSystem(
-            this.engine,
-            this.queue,
-            this.mapPda,
-            this.playerPda,
-            {
-                command: {
-                    Move: { dx: 0, dy: -1 },
-                },
-            }
-        );
+        this.move({ dx: 0, dy: -1 });
 
-        // this.worker.postMessage({
-        //     type: "apply-command",
-        //     data: {
-        //         mapPda: this.mapPda.toBase58(),
-        //         playerPda: this.playerPda.toBase58(),
-        //         arg: {
-        //             command: {
-        //                 Move: { dx: 0, dy: -1 },
-        //             },
+        // applyCommandSystem(
+        //     this.engine,
+        //     this.queue,
+        //     this.mapPda,
+        //     this.playerPda,
+        //     {
+        //         command: {
+        //             Move: { dx: 0, dy: -1 },
         //         },
-        //         sessionKey: this.engine.getSessionKey().secretKey,
-        //     },
-        // });
+        //     }
+        // );
     }
 
     public moveDown() {
+        this.move({ dx: 0, dy: 1 });
+
+        // applyCommandSystem(
+        //     this.engine,
+        //     this.queue,
+        //     this.mapPda,
+        //     this.playerPda,
+        //     {
+        //         command: {
+        //             Move: { dx: 0, dy: 1 },
+        //         },
+        //     }
+        // );
+    }
+
+    private move(arg: { dx: number; dy: number }): void {
         applyCommandSystem(
             this.engine,
             this.queue,
@@ -424,24 +484,10 @@ export default class Player extends Actor {
             this.playerPda,
             {
                 command: {
-                    Move: { dx: 0, dy: 1 },
+                    Move: arg,
                 },
             }
         );
-
-        // this.worker.postMessage({
-        //     type: "apply-command",
-        //     data: {
-        //         mapPda: this.mapPda.toBase58(),
-        //         playerPda: this.playerPda.toBase58(),
-        //         arg: {
-        //             command: {
-        //                 Move: { dx: 0, dy: 1 },
-        //             },
-        //         },
-        //         sessionKey: this.engine.getSessionKey().secretKey,
-        //     },
-        // });
     }
 
     public set setGold(value: number) {

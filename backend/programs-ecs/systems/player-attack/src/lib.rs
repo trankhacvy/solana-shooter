@@ -8,6 +8,7 @@ declare_id!("2iyMqaKq2oYESD7NCkx5RrvQjMCXSA4SC5VSccmdDrhZ");
 
 #[system]
 pub mod player_attack {
+    use map::MapStatus;
 
     pub fn execute(ctx: Context<Components>, _args_p: Vec<u8>) -> Result<Components> {
         let map = &mut ctx.accounts.map;
@@ -33,21 +34,22 @@ pub mod player_attack {
 
                 if let Some(closest_enemy) = closest_enemy {
                     if is_enemy_in_attack_radius(player, closest_enemy) {
-                        bullets_state.bulelts.push(Bullet {
-                            id: bullet_count as u32 + 1,
-                            x: player.x,
-                            y: player.y,
-                            speed: player.bullet_speed,
-                            enemy_id: closest_enemy.id,
-                            active: true,
-                            damage: player.bullet_damage,
-                        });
+                        bullets_state.bulelts.push(Bullet::spawn(
+                            bullet_count as u32 + 1,
+                            player.x,
+                            player.y,
+                            player.bullet_speed,
+                            closest_enemy.id,
+                            player.bullet_damage,
+                        ));
                     }
                 }
             }
         }
 
-        map.reload()?;
+        if player.hp == 0 {
+            map.status = MapStatus::Over;
+        }
 
         Ok(ctx.accounts)
     }

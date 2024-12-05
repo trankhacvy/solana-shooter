@@ -3,6 +3,10 @@ import StartGame from "./main";
 import { EventBus } from "./EventBus";
 import Phaser from "phaser";
 import { useMagicBlockEngine } from "@/components/magic-block-engine-provider";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import EVENTS from "./config/events";
+import { useLoading } from "@/components/loading-provider";
 
 export interface IRefPhaserGame {
     game: Phaser.Game | null;
@@ -15,12 +19,19 @@ interface IProps {
 
 export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(
     function PhaserGame({ currentActiveScene }, ref) {
+        const walletState = useWallet();
+        const { setVisible } = useWalletModal();
+        const { setIsLoading, isLoading } = useLoading();
+
         const game = useRef<Phaser.Game | null>(null!);
         const engine = useMagicBlockEngine();
 
         useLayoutEffect(() => {
             if (game.current === null) {
-                game.current = StartGame("game-container", engine);
+                game.current = StartGame("game-container", engine, {
+                    ...walletState,
+                    setVisible,
+                });
 
                 if (typeof ref === "function") {
                     ref({ game: game.current, scene: null });
@@ -94,6 +105,32 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(
                 window.removeEventListener("resize", handleGameResize, false);
             };
         }, [currentActiveScene, ref]);
+
+        useEffect(() => {
+            EventBus.emit(EVENTS.WALLET.STATUS, walletState.connected);
+
+            return () => {
+                EventBus.removeListener(EVENTS.WALLET.STATUS);
+            };
+        }, [walletState.connected]);
+
+        useEffect(() => {
+            EventBus.on(EVENTS.LOADING.TOGGLE_LOADING, (loading) => {
+                setIsLoading(loading);
+            });
+
+            return () => {
+                EventBus.removeListener(EVENTS.LOADING.TOGGLE_LOADING);
+            };
+        }, []);
+
+        useEffect(() => {
+            EventBus.emit(EVENTS.LOADING.IS_LOADING, isLoading);
+
+            return () => {
+                EventBus.removeListener(EVENTS.LOADING.IS_LOADING);
+            };
+        }, [isLoading]);
 
         return <div id="game-container" className="w-full h-screen"></div>;
     }

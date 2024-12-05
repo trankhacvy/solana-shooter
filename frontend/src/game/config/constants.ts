@@ -3,7 +3,7 @@ import EVENTS from "./events";
 import type { PlayerNameType } from "../types/players";
 import type { WeaponType } from "../types/weapons";
 
-const DEBUG = true;
+const DEBUG = false;
 const CHEATS = false;
 
 const SCALE = 1;
@@ -26,7 +26,7 @@ export default {
     HEIGHT: height * SCALE,
     SCALE,
     CHEATS,
-    AUTHOR: "Created by: Nikita Yudin | nikitayudin782@gmail.com",
+    AUTHOR: "",
     DEBUG,
     CURSOR: {
         DEFAULT: "url(assets/cursors/default.cur), pointer",
@@ -55,6 +55,8 @@ export default {
         MAP_SELECT: "map-select-scene",
         SETTINGS: "settings-scene",
         AUDIO: "audio-scene",
+        CITY: "city-scene",
+        MINT: "mint-scene",
     },
     LEVEL: {
         WIDTH: 50,
@@ -93,43 +95,43 @@ export default {
         },
         SKILLS: {
             REGEN: {
-                NAME: "Восст. здоровья",
+                NAME: "Regen",
                 TYPE: "regen" as PlayerSkillType,
                 COLOR: "#EC5092",
                 RATE: 1,
             },
             HEALTH: {
-                NAME: "Макс. здоровья",
+                NAME: "Health",
                 TYPE: "health" as PlayerSkillType,
                 COLOR: "#E23C4B",
                 RATE: 1,
             },
             BODY: {
-                NAME: "Урон телом",
+                NAME: "Body",
                 TYPE: "body" as PlayerSkillType,
                 COLOR: "#CE34CD",
                 RATE: 1,
             },
             BULLET: {
-                NAME: "Скорость пули",
+                NAME: "Bullet",
                 TYPE: "bullet" as PlayerSkillType,
                 COLOR: "#E1B035",
                 RATE: 1,
             },
             DAMAGE: {
-                NAME: "Урон оружия",
+                NAME: "Damage",
                 TYPE: "damage" as PlayerSkillType,
                 COLOR: "#E26034",
                 RATE: 1,
             },
             RELOAD: {
-                NAME: "Перезарядка",
+                NAME: "Reload",
                 TYPE: "reload" as PlayerSkillType,
                 COLOR: "#4EBA28",
                 RATE: 1,
             },
             SPEED: {
-                NAME: "Скорость движения",
+                NAME: "Speed",
                 TYPE: "speed" as PlayerSkillType,
                 COLOR: "#34ACE2",
                 RATE: 1,
@@ -150,6 +152,10 @@ export default {
     },
     BULLETS: {
         TEXTURE: "bullets",
+    },
+    ADDRESSES: {
+        PROJECT_ADDRESS: "Ez5oTj6awybgXNzPyQAvLqEo1H3smQJE2NMg6yMa72Mk",
+        TREE_ADDRESS: "13KaqV9AnM5VHRfre2LVVosWQSjUDhkUUkAfXaorsdN9",
     },
 };
 

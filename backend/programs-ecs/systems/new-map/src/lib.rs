@@ -8,6 +8,8 @@ declare_id!("8PJTiVhRq2MCyHE8D3CrbuktWRkr4VswvLiS16VFqEsh");
 
 #[system]
 pub mod new_map {
+    use commons::constants::DEFAULT_PLAYER_HP;
+
     pub fn execute(ctx: Context<Components>) -> Result<Components> {
         let clock = Clock::get()?;
 
@@ -20,8 +22,9 @@ pub mod new_map {
 
         player.x = map.bound_x as f32 / 2.0;
         player.y = map.bound_y as f32 / 2.0;
-        player.hp = 100;
-        player.max_hp = 100;
+        player.hp = DEFAULT_PLAYER_HP;
+        player.max_hp = DEFAULT_PLAYER_HP;
+        player.experience = 0;
 
         map.player = player.key();
         map.last_tick = clock.slot;

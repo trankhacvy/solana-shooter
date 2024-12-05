@@ -267,6 +267,10 @@ export type Enemies = {
             "type": "pubkey"
           },
           {
+            "name": "dead",
+            "type": "u32"
+          },
+          {
             "name": "enemies",
             "type": {
               "vec": {
@@ -323,6 +327,10 @@ export type Enemies = {
           {
             "name": "speed",
             "type": "f32"
+          },
+          {
+            "name": "experience",
+            "type": "u32"
           },
           {
             "name": "active",
