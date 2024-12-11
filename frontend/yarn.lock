@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@0no-co/graphql.web@^1.0.5":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@0no-co/graphql.web/-/graphql.web-1.0.12.tgz#5fab8caaf5e6dae88e31111305f93dfd152de2fb"
+  integrity sha512-BTDjjsV/zSPy5fqItwm+KWUfh9CSe9tTtR6rCB72ddtkAxdcHbi4Ir4r/L1Et4lyxmL+i7Rb3m9sjLLi9tYrzA==
+
 "@alloc/quick-lru@^5.2.0":
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/@alloc/quick-lru/-/quick-lru-5.2.0.tgz#7bf68b20c0a350f936915fcae06f58e32007ce30"
@@ -1278,6 +1283,19 @@
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
+
+"@honeycomb-protocol/edge-client@^0.0.7-beta.6":
+  version "0.0.7-beta.6"
+  resolved "https://registry.yarnpkg.com/@honeycomb-protocol/edge-client/-/edge-client-0.0.7-beta.6.tgz#07fed5622119145c7a9b1321e5e139af265692dd"
+  integrity sha512-sW7W1eqm0Y9crVeCPLfLSOuQtNyGIJLiS9GeZrohIRBi2Ti4N84HyXgKtUIvkeaOaSxaE9oTbZACFIQ780qLgQ==
+  dependencies:
+    "@urql/core" "^5.0.5"
+    graphql latest
+    graphql-tag "^2.12.6"
+  optionalDependencies:
+    "@solana/web3.js" "^1.89.1"
+    bs58 "^5.0.0"
+    graphql-sse "^2.5.3"
 
 "@hookform/resolvers@^3.3.4":
   version "3.9.1"
@@ -3156,6 +3174,27 @@
     rpc-websockets "^9.0.2"
     superstruct "^2.0.2"
 
+"@solana/web3.js@^1.89.1":
+  version "1.95.8"
+  resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.95.8.tgz#2d49abda23f7a79a3cc499ab6680f7be11786ee1"
+  integrity sha512-sBHzNh7dHMrmNS5xPD1d0Xa2QffW/RXaxu/OysRXBfwTp+LYqGGmMtCYYwrHPrN5rjAmJCsQRNAwv4FM0t3B6g==
+  dependencies:
+    "@babel/runtime" "^7.25.0"
+    "@noble/curves" "^1.4.2"
+    "@noble/hashes" "^1.4.0"
+    "@solana/buffer-layout" "^4.0.1"
+    agentkeepalive "^4.5.0"
+    bigint-buffer "^1.1.5"
+    bn.js "^5.2.1"
+    borsh "^0.7.0"
+    bs58 "^4.0.1"
+    buffer "6.0.3"
+    fast-stable-stringify "^1.0.0"
+    jayson "^4.1.1"
+    node-fetch "^2.7.0"
+    rpc-websockets "^9.0.2"
+    superstruct "^2.0.2"
+
 "@solflare-wallet/metamask-sdk@^1.0.2":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@solflare-wallet/metamask-sdk/-/metamask-sdk-1.0.3.tgz#3baaa22de2c86515e6ba6025285cd1f5d74b04e5"
@@ -4102,6 +4141,14 @@
   dependencies:
     "@typescript-eslint/types" "8.16.0"
     eslint-visitor-keys "^4.2.0"
+
+"@urql/core@^5.0.5":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@urql/core/-/core-5.0.8.tgz#eba39eaa2bf9a0a963383e87a65cba7a9ca794bd"
+  integrity sha512-1GOnUw7/a9bzkcM0+U8U5MmxW2A7FE5YquuEmcJzTtW5tIs2EoS4F2ITpuKBjRBbyRjZgO860nWFPo1m4JImGA==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.5"
+    wonka "^6.3.2"
 
 "@wallet-standard/app@^1.0.1", "@wallet-standard/app@^1.1.0":
   version "1.1.0"
@@ -7211,6 +7258,23 @@ graphemer@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/graphemer/-/graphemer-1.4.0.tgz#fb2f1d55e0e3a1849aeffc90c4fa0dd53a0e66c6"
   integrity sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==
+
+graphql-sse@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/graphql-sse/-/graphql-sse-2.5.3.tgz#c3557803f2db306d8ac87fd3bc089b6d4bac8353"
+  integrity sha512-5IcFW3e7fPOG7oFkK1v3X1wWtCJArQKB/H1UJeNotjy7a/9EYA5K+EiHJF1BiDSVNx7y64bd0FlDETrNBSvIHQ==
+
+graphql-tag@^2.12.6:
+  version "2.12.6"
+  resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.12.6.tgz#d441a569c1d2537ef10ca3d1633b48725329b5f1"
+  integrity sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==
+  dependencies:
+    tslib "^2.1.0"
+
+graphql@latest:
+  version "16.9.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.9.0.tgz#1c310e63f16a49ce1fbb230bd0a000e99f6f115f"
+  integrity sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==
 
 gzip-size@^6.0.0:
   version "6.0.0"
@@ -11477,6 +11541,11 @@ wif@^5.0.0:
   integrity sha512-iFzrC/9ne740qFbNjTZ2FciSRJlHIXoxqk/Y5EnE08QOXu1WjJyCCswwDTYbohAOEnlCtLaAAQBhyaLRFh2hMA==
   dependencies:
     bs58check "^4.0.0"
+
+wonka@^6.3.2:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/wonka/-/wonka-6.3.4.tgz#76eb9316e3d67d7febf4945202b5bdb2db534594"
+  integrity sha512-CjpbqNtBGNAeyNS/9W6q3kSkKE52+FjIj7AkFlLr11s/VWGUu6a2CdYSdGxocIhIVjaW/zchesBQUKPVU69Cqg==
 
 word-wrap@^1.2.5:
   version "1.2.5"

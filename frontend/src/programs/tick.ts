@@ -14,20 +14,23 @@ export type Tick = {
   },
   "instructions": [
     {
-      "name": "execute",
+      "name": "execute2",
       "discriminator": [
-        130,
-        221,
-        242,
-        154,
-        13,
-        193,
-        189,
-        29
+        105,
+        108,
+        50,
+        190,
+        253,
+        180,
+        77,
+        227
       ],
       "accounts": [
         {
           "name": "map"
+        },
+        {
+          "name": "enemies"
         },
         {
           "name": "authority",
@@ -38,6 +41,19 @@ export type Tick = {
     }
   ],
   "accounts": [
+    {
+      "name": "enemies",
+      "discriminator": [
+        90,
+        169,
+        82,
+        176,
+        82,
+        178,
+        52,
+        217
+      ]
+    },
     {
       "name": "map",
       "discriminator": [
@@ -69,6 +85,116 @@ export type Tick = {
       }
     },
     {
+      "name": "enemies",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "map",
+            "type": "pubkey"
+          },
+          {
+            "name": "dead",
+            "type": "u32"
+          },
+          {
+            "name": "enemies",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "enemy"
+                }
+              }
+            }
+          },
+          {
+            "name": "boltMetadata",
+            "type": {
+              "defined": {
+                "name": "boltMetadata"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "enemy",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u32"
+          },
+          {
+            "name": "waveId",
+            "type": "u32"
+          },
+          {
+            "name": "x",
+            "type": "f32"
+          },
+          {
+            "name": "y",
+            "type": "f32"
+          },
+          {
+            "name": "hp",
+            "type": "u32"
+          },
+          {
+            "name": "maxHp",
+            "type": "u32"
+          },
+          {
+            "name": "damage",
+            "type": "u32"
+          },
+          {
+            "name": "speed",
+            "type": "f32"
+          },
+          {
+            "name": "experience",
+            "type": "u32"
+          },
+          {
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "name": "lastBodyDamage",
+            "type": "u64"
+          },
+          {
+            "name": "bodyAttackTime",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "enemyType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "flyingEye"
+          },
+          {
+            "name": "goblin"
+          },
+          {
+            "name": "mushroom"
+          },
+          {
+            "name": "skeleton"
+          }
+        ]
+      }
+    },
+    {
       "name": "map",
       "type": {
         "kind": "struct",
@@ -86,40 +212,46 @@ export type Tick = {
             "type": "u32"
           },
           {
-            "name": "mapType",
-            "type": {
-              "defined": {
-                "name": "mapType"
-              }
-            }
-          },
-          {
-            "name": "title",
-            "type": "string"
-          },
-          {
-            "name": "description",
-            "type": "string"
-          },
-          {
-            "name": "cover",
-            "type": "string"
-          },
-          {
-            "name": "music",
-            "type": "string"
-          },
-          {
             "name": "player",
+            "type": "pubkey"
+          },
+          {
+            "name": "lastTick",
+            "type": "u64"
+          },
+          {
+            "name": "lastWaveSpawn",
+            "type": "i64"
+          },
+          {
+            "name": "lastEnemySpawn",
+            "type": "i64"
+          },
+          {
+            "name": "waves",
             "type": {
-              "defined": {
-                "name": "player"
+              "vec": {
+                "defined": {
+                  "name": "wave"
+                }
               }
             }
           },
           {
-            "name": "tickNextSlot",
-            "type": "u64"
+            "name": "currentWaveIndex",
+            "type": "i8"
+          },
+          {
+            "name": "currentWaveCount",
+            "type": "u32"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "mapStatus"
+              }
+            }
           },
           {
             "name": "boltMetadata",
@@ -133,138 +265,43 @@ export type Tick = {
       }
     },
     {
-      "name": "mapType",
+      "name": "mapStatus",
       "type": {
         "kind": "enum",
         "variants": [
           {
-            "name": "bonk"
+            "name": "ready"
           },
           {
-            "name": "dogWithHat"
-          },
-          {
-            "name": "popcat"
-          },
-          {
-            "name": "peanutTheSquirrel"
-          },
-          {
-            "name": "goatseusMaximus"
-          },
-          {
-            "name": "catInADogsWorld"
-          },
-          {
-            "name": "bookOfMeme"
-          },
-          {
-            "name": "justAChillGuy"
-          },
-          {
-            "name": "fwog"
-          },
-          {
-            "name": "babyDogeCoin"
-          },
-          {
-            "name": "weLoveTits"
+            "name": "over"
           }
         ]
       }
     },
     {
-      "name": "player",
+      "name": "wave",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "x",
+            "name": "id",
             "type": "u32"
           },
           {
-            "name": "y",
+            "name": "spawnCount",
             "type": "u32"
           },
           {
-            "name": "maximumHitPoints",
-            "type": "i32"
-          },
-          {
-            "name": "currentHitPoints",
+            "name": "interval",
             "type": "u32"
           },
           {
-            "name": "level",
-            "type": "u32"
-          },
-          {
-            "name": "speed",
-            "type": "u32"
-          },
-          {
-            "name": "bodyDamage",
-            "type": "u32"
-          },
-          {
-            "name": "experience",
-            "type": "u32"
-          },
-          {
-            "name": "bodyAttackTime",
-            "type": "u32"
-          },
-          {
-            "name": "lastBodyDamage",
-            "type": "u32"
-          },
-          {
-            "name": "gold",
-            "type": "u32"
-          },
-          {
-            "name": "skillUpPoints",
-            "type": "u32"
-          },
-          {
-            "name": "upgradePoints",
-            "type": "u32"
-          },
-          {
-            "name": "regeneration",
-            "type": "u32"
-          },
-          {
-            "name": "attackRate",
-            "type": "u32"
-          },
-          {
-            "name": "bulletSpeed",
-            "type": "u32"
-          },
-          {
-            "name": "bulletDamage",
-            "type": "u32"
-          },
-          {
-            "name": "lastFired",
-            "type": "u32"
-          },
-          {
-            "name": "lastRegeneration",
-            "type": "u32"
-          },
-          {
-            "name": "radiusAttack",
-            "type": "u32"
-          },
-          {
-            "name": "experienceRequired",
-            "type": "u32"
+            "name": "enemyType",
+            "type": {
+              "defined": {
+                "name": "enemyType"
+              }
+            }
           }
         ]
       }

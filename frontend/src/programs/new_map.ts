@@ -14,20 +14,29 @@ export type NewMap = {
   },
   "instructions": [
     {
-      "name": "execute",
+      "name": "execute4",
       "discriminator": [
-        130,
-        221,
-        242,
-        154,
-        13,
-        193,
-        189,
-        29
+        238,
+        9,
+        12,
+        2,
+        93,
+        70,
+        237,
+        115
       ],
       "accounts": [
         {
           "name": "map"
+        },
+        {
+          "name": "player"
+        },
+        {
+          "name": "enemies"
+        },
+        {
+          "name": "bullets"
         },
         {
           "name": "authority",
@@ -39,6 +48,32 @@ export type NewMap = {
   ],
   "accounts": [
     {
+      "name": "bullets",
+      "discriminator": [
+        61,
+        112,
+        49,
+        3,
+        204,
+        202,
+        73,
+        244
+      ]
+    },
+    {
+      "name": "enemies",
+      "discriminator": [
+        90,
+        169,
+        82,
+        176,
+        82,
+        178,
+        52,
+        217
+      ]
+    },
+    {
       "name": "map",
       "discriminator": [
         182,
@@ -49,6 +84,19 @@ export type NewMap = {
         241,
         180,
         244
+      ]
+    },
+    {
+      "name": "player",
+      "discriminator": [
+        205,
+        222,
+        112,
+        7,
+        165,
+        155,
+        206,
+        218
       ]
     }
   ],
@@ -64,6 +112,182 @@ export type NewMap = {
           {
             "name": "authority",
             "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "bullet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u32"
+          },
+          {
+            "name": "x",
+            "type": "f32"
+          },
+          {
+            "name": "y",
+            "type": "f32"
+          },
+          {
+            "name": "speed",
+            "type": "f32"
+          },
+          {
+            "name": "enemyId",
+            "type": "u32"
+          },
+          {
+            "name": "damage",
+            "type": "u32"
+          },
+          {
+            "name": "active",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "bullets",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "map",
+            "type": "pubkey"
+          },
+          {
+            "name": "bulelts",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "bullet"
+                }
+              }
+            }
+          },
+          {
+            "name": "boltMetadata",
+            "type": {
+              "defined": {
+                "name": "boltMetadata"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "enemies",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "map",
+            "type": "pubkey"
+          },
+          {
+            "name": "dead",
+            "type": "u32"
+          },
+          {
+            "name": "enemies",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "enemy"
+                }
+              }
+            }
+          },
+          {
+            "name": "boltMetadata",
+            "type": {
+              "defined": {
+                "name": "boltMetadata"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "enemy",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u32"
+          },
+          {
+            "name": "waveId",
+            "type": "u32"
+          },
+          {
+            "name": "x",
+            "type": "f32"
+          },
+          {
+            "name": "y",
+            "type": "f32"
+          },
+          {
+            "name": "hp",
+            "type": "u32"
+          },
+          {
+            "name": "maxHp",
+            "type": "u32"
+          },
+          {
+            "name": "damage",
+            "type": "u32"
+          },
+          {
+            "name": "speed",
+            "type": "f32"
+          },
+          {
+            "name": "experience",
+            "type": "u32"
+          },
+          {
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "name": "lastBodyDamage",
+            "type": "u64"
+          },
+          {
+            "name": "bodyAttackTime",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "enemyType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "flyingEye"
+          },
+          {
+            "name": "goblin"
+          },
+          {
+            "name": "mushroom"
+          },
+          {
+            "name": "skeleton"
           }
         ]
       }
@@ -86,39 +310,135 @@ export type NewMap = {
             "type": "u32"
           },
           {
-            "name": "mapType",
-            "type": {
-              "defined": {
-                "name": "mapType"
-              }
-            }
-          },
-          {
-            "name": "title",
-            "type": "string"
-          },
-          {
-            "name": "description",
-            "type": "string"
-          },
-          {
-            "name": "cover",
-            "type": "string"
-          },
-          {
-            "name": "music",
-            "type": "string"
-          },
-          {
             "name": "player",
+            "type": "pubkey"
+          },
+          {
+            "name": "lastTick",
+            "type": "u64"
+          },
+          {
+            "name": "lastWaveSpawn",
+            "type": "i64"
+          },
+          {
+            "name": "lastEnemySpawn",
+            "type": "i64"
+          },
+          {
+            "name": "waves",
             "type": {
-              "defined": {
-                "name": "player"
+              "vec": {
+                "defined": {
+                  "name": "wave"
+                }
               }
             }
           },
           {
-            "name": "tickNextSlot",
+            "name": "currentWaveIndex",
+            "type": "i8"
+          },
+          {
+            "name": "currentWaveCount",
+            "type": "u32"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "mapStatus"
+              }
+            }
+          },
+          {
+            "name": "boltMetadata",
+            "type": {
+              "defined": {
+                "name": "boltMetadata"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "mapStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ready"
+          },
+          {
+            "name": "over"
+          }
+        ]
+      }
+    },
+    {
+      "name": "player",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "x",
+            "type": "f32"
+          },
+          {
+            "name": "y",
+            "type": "f32"
+          },
+          {
+            "name": "hp",
+            "type": "u32"
+          },
+          {
+            "name": "maxHp",
+            "type": "u32"
+          },
+          {
+            "name": "speed",
+            "type": "f32"
+          },
+          {
+            "name": "level",
+            "type": "u32"
+          },
+          {
+            "name": "experience",
+            "type": "u32"
+          },
+          {
+            "name": "requiredExperience",
+            "type": "u32"
+          },
+          {
+            "name": "bulletSpeed",
+            "type": "f32"
+          },
+          {
+            "name": "bulletDamage",
+            "type": "u32"
+          },
+          {
+            "name": "radiusAttack",
+            "type": "u32"
+          },
+          {
+            "name": "lastBodyDamage",
+            "type": "u64"
+          },
+          {
+            "name": "bodyAttackTime",
+            "type": "u64"
+          },
+          {
+            "name": "lastFire",
             "type": "u64"
           },
           {
@@ -133,138 +453,29 @@ export type NewMap = {
       }
     },
     {
-      "name": "mapType",
-      "type": {
-        "kind": "enum",
-        "variants": [
-          {
-            "name": "bonk"
-          },
-          {
-            "name": "dogWithHat"
-          },
-          {
-            "name": "popcat"
-          },
-          {
-            "name": "peanutTheSquirrel"
-          },
-          {
-            "name": "goatseusMaximus"
-          },
-          {
-            "name": "catInADogsWorld"
-          },
-          {
-            "name": "bookOfMeme"
-          },
-          {
-            "name": "justAChillGuy"
-          },
-          {
-            "name": "fwog"
-          },
-          {
-            "name": "babyDogeCoin"
-          },
-          {
-            "name": "weLoveTits"
-          }
-        ]
-      }
-    },
-    {
-      "name": "player",
+      "name": "wave",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "x",
+            "name": "id",
             "type": "u32"
           },
           {
-            "name": "y",
+            "name": "spawnCount",
             "type": "u32"
           },
           {
-            "name": "maximumHitPoints",
-            "type": "i32"
-          },
-          {
-            "name": "currentHitPoints",
+            "name": "interval",
             "type": "u32"
           },
           {
-            "name": "level",
-            "type": "u32"
-          },
-          {
-            "name": "speed",
-            "type": "u32"
-          },
-          {
-            "name": "bodyDamage",
-            "type": "u32"
-          },
-          {
-            "name": "experience",
-            "type": "u32"
-          },
-          {
-            "name": "bodyAttackTime",
-            "type": "u32"
-          },
-          {
-            "name": "lastBodyDamage",
-            "type": "u32"
-          },
-          {
-            "name": "gold",
-            "type": "u32"
-          },
-          {
-            "name": "skillUpPoints",
-            "type": "u32"
-          },
-          {
-            "name": "upgradePoints",
-            "type": "u32"
-          },
-          {
-            "name": "regeneration",
-            "type": "u32"
-          },
-          {
-            "name": "attackRate",
-            "type": "u32"
-          },
-          {
-            "name": "bulletSpeed",
-            "type": "u32"
-          },
-          {
-            "name": "bulletDamage",
-            "type": "u32"
-          },
-          {
-            "name": "lastFired",
-            "type": "u32"
-          },
-          {
-            "name": "lastRegeneration",
-            "type": "u32"
-          },
-          {
-            "name": "radiusAttack",
-            "type": "u32"
-          },
-          {
-            "name": "experienceRequired",
-            "type": "u32"
+            "name": "enemyType",
+            "type": {
+              "defined": {
+                "name": "enemyType"
+              }
+            }
           }
         ]
       }

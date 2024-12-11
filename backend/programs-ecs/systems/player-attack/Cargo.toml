@@ -1,0 +1,25 @@
+[package]
+name = "player-attack"
+version = "0.1.10"
+description = "Created with Bolt"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "player_attack"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+idl-build = ["anchor-lang/idl-build"]
+
+[dependencies]
+bolt-lang = { workspace = true }
+anchor-lang = { workspace = true }
+map = { path = "../../components/map", features = ["cpi"] }
+player = { path = "../../components/player", features = ["cpi"] }
+enemies = { path = "../../components/enemies", features = ["cpi"] }
+bullets = { path = "../../components/bullets", features = ["cpi"] }

@@ -4,6 +4,8 @@ import SceneList from "./config/sceneList";
 import { plugins } from "./config/pluginsConfig";
 import { MagicBlockEngine } from "@/libs/engine/magic-block-engine";
 import { MagicBlockEnginePlugin } from "./plugins/FloatingNumbers/MagicBlockEngine";
+import { WalletConnectPlugin, WalletContextStateExtended } from "./plugins/WalletConnect";
+import { WalletContextState } from "@solana/wallet-adapter-react";
 
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config: Phaser.Types.Core.GameConfig = {
@@ -23,8 +25,12 @@ const config: Phaser.Types.Core.GameConfig = {
         default: "arcade",
         arcade: {
             debug: constants.DEBUG,
-            fps: 61,
+            fps: 60,
         },
+    },
+    fps: {
+        target: 60,
+        forceSetTimeOut: true,
     },
     render: {
         pixelArt: false,
@@ -34,7 +40,11 @@ const config: Phaser.Types.Core.GameConfig = {
     plugins,
 };
 
-const StartGame = (parent: string, engine: MagicBlockEngine) => {
+const StartGame = (
+    parent: string,
+    engine: MagicBlockEngine,
+    walletState: WalletContextStateExtended
+) => {
     window.Phaser = Phaser;
 
     return new Game({
@@ -47,8 +57,14 @@ const StartGame = (parent: string, engine: MagicBlockEngine) => {
                     start: true,
                     data: engine,
                 },
+                {
+                    key: "walletConnect",
+                    plugin: WalletConnectPlugin,
+                    start: true,
+                    data: walletState,
+                },
             ],
-            ...config.plugins
+            ...config.plugins,
         },
         parent,
     });

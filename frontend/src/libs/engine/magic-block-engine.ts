@@ -14,14 +14,14 @@ import { WalletName } from "@solana/wallet-adapter-base";
 const ENDPOINT_CHAIN_RPC = "https://api.devnet.solana.com";
 const ENDPOINT_CHAIN_WS = "wss://api.devnet.solana.com";
 
-const _ENDPOINT_CHAIN_RPC = "http://127.0.0.1:7899";
-const _ENDPOINT_CHAIN_WS = "ws://127.0.0.1:7900";
+// const ENDPOINT_CHAIN_RPC = "http://localhost:8899";
+// const ENDPOINT_CHAIN_WS = "ws://localhost:8900";
 
 const ENDPOINT_EPHEM_RPC = "https://devnet.magicblock.app";
 const ENDPOINT_EPHEM_WS = "wss://devnet.magicblock.app:8900";
 
-const _ENDPOINT_EPHEM_RPC = "http://localhost:8899";
-const _ENDPOINT_EPHEM_WS = "ws://localhost:8900";
+// const ENDPOINT_EPHEM_RPC = "http://localhost:8899";
+// const ENDPOINT_EPHEM_WS = "ws://localhost:8900";
 
 const TRANSACTION_COST_LAMPORTS = 5000;
 
@@ -86,6 +86,10 @@ export class MagicBlockEngine {
         return this.sessionKey.publicKey;
     }
 
+    getSessionKey(): Keypair {
+        return this.sessionKey;
+    }
+
     async processWalletTransaction(
         name: string,
         transaction: Transaction
@@ -112,7 +116,7 @@ export class MagicBlockEngine {
         const signature = await connectionChain.sendTransaction(
             transaction,
             [this.sessionKey],
-            { skipPreflight: true }
+            { skipPreflight: true, maxRetries: 0 }
         );
         await this.waitSignatureConfirmation(
             name,
@@ -132,13 +136,13 @@ export class MagicBlockEngine {
         const signature = await connectionEphem.sendTransaction(
             transaction,
             [this.sessionKey],
-            { skipPreflight: true }
+            { skipPreflight: true, maxRetries: 0 }
         );
         await this.waitSignatureConfirmation(
             name,
             signature,
             connectionEphem,
-            "finalized"
+            "confirmed"
         );
         return signature;
     }
@@ -154,6 +158,7 @@ export class MagicBlockEngine {
             connection.onSignature(
                 signature,
                 (result) => {
+                    console.log(result);
                     console.log(name, commitment, signature, result.err);
                     if (result.err) {
                         this.debugError(name, signature, connection);
@@ -282,6 +287,9 @@ export class MagicBlockEngine {
             (accountInfo) => {
                 ignoreFetch = true;
                 onAccountChange(accountInfo);
+            },
+            {
+                commitment: "processed",
             }
         );
         return () => {
@@ -314,4 +322,9 @@ export class MagicBlockEngine {
     getSessionMaximalLamports(): number {
         return this.sessionConfig.maxLamports;
     }
+
+    isLocalhost(): boolean {
+        return ENDPOINT_CHAIN_RPC.includes("localhost");
+    }
 }
+

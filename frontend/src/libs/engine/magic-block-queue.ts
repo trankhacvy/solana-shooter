@@ -20,23 +20,23 @@ export class MagicBlockQueue {
         transaction: Transaction
     ): Promise<string> {
         const engine = this.engine;
-        const last = this.last;
+        const last = this.last ? () => this.last : undefined;
         const next = (async function () {
             try {
                 if (last !== undefined) {
-                    await last;
+                    last();
                 }
             } catch (error) {
                 // The error should be handled by another awaiter (from the return)
             }
             const expiration = new Promise<string>((resolve) =>
-                setTimeout(() => resolve(""), 1000)
+                setTimeout(() => resolve(""), 100)
             );
-            const execution = engine.processSessionEphemTransaction(
-                name,
-                transaction
-            );
-            return await Promise.race([expiration, execution]);
+            const execution = engine.isLocalhost()
+                ? engine.processSessionChainTransaction(name, transaction)
+                : engine.processSessionEphemTransaction(name, transaction);
+
+            return Promise.race([expiration, execution]);
         })();
 
         this.last = next;

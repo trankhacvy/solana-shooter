@@ -19,3 +19,4 @@ idl-build = ["anchor-lang/idl-build"]
 [dependencies]
 bolt-lang = { workspace = true }
 anchor-lang = { workspace = true }
+commons = { path = "../../../crates/commons" }

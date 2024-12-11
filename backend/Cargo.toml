@@ -2,7 +2,8 @@
 members = [
     "programs/*",
     "programs-ecs/components/*",
-    "programs-ecs/systems/*"
+    "programs-ecs/systems/*",
+    "crates/*"
 ]
 resolver = "2"
 

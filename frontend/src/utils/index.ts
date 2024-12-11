@@ -11,7 +11,9 @@ export function formatArea(number: number) {
 }
 
 export function formatTimeString(date: Date) {
-    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} lúc ${date.getHours()}:${date.getMinutes()}`;
+    return `${date.getDate()}/${
+        date.getMonth() + 1
+    }/${date.getFullYear()} lúc ${date.getHours()}:${date.getMinutes()}`;
 }
 
 export function countdownDaysInVietnamese(targetDate: Date) {
@@ -74,7 +76,7 @@ export function daysBetween(date1Str: string, date2Str: string = "now") {
 export function formatVietnameseCurrency(
     number: number,
     withPrefix: boolean = true,
-    shouldFormatMil = false,
+    shouldFormatMil = false
 ) {
     // Check if the input is a valid number
     if (isNaN(number)) {
@@ -130,11 +132,14 @@ export function getAverageRating(ratings: Record<number, number>) {
     // Reduce the ratings object to get the sum of (rating * count) for each rating
     const totalRating = Object.entries(ratings).reduce(
         (acc, [rating, count]) => acc + (rating as any) * count,
-        0,
+        0
     );
 
     // Reduce the ratings object to get the sum of counts for all ratings
-    const totalCount = Object.values(ratings).reduce((acc, count) => acc + count, 0);
+    const totalCount = Object.values(ratings).reduce(
+        (acc, count) => acc + count,
+        0
+    );
 
     // Calculate the average rating by dividing total rating by total count
     const averageRating = totalRating / totalCount;
@@ -143,7 +148,9 @@ export function getAverageRating(ratings: Record<number, number>) {
 }
 
 export function removeEmpty(obj: object) {
-    return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
+    return Object.fromEntries(
+        Object.entries(obj).filter(([_, v]) => v != null)
+    );
 }
 
 export function getNameFirstLetters(name?: string, maxLength = 2) {
@@ -156,7 +163,11 @@ export function getNameFirstLetters(name?: string, maxLength = 2) {
 }
 
 export const jsonToObjectArray = (json: Record<string, any>) => {
-    return Object.keys(json || {}).map((key) => ({ key, value: json[key], id: nanoid() }));
+    return Object.keys(json || {}).map((key) => ({
+        key,
+        value: json[key],
+        id: nanoid(),
+    }));
 };
 
 export const objectArrayToJson = (array: { key: string; value: string }[]) => {
@@ -165,3 +176,7 @@ export const objectArrayToJson = (array: { key: string; value: string }[]) => {
         return acc;
     }, {});
 };
+
+export function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
