@@ -1,4 +1,5 @@
 import "../styles/globals.scss";
+import "@telegram-apps/telegram-ui/dist/styles.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Inter } from "next/font/google";

@@ -1253,7 +1253,7 @@
     "@floating-ui/core" "^1.6.0"
     "@floating-ui/utils" "^0.2.8"
 
-"@floating-ui/react-dom@^2.0.0":
+"@floating-ui/react-dom@^2.0.0", "@floating-ui/react-dom@^2.0.8":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@floating-ui/react-dom/-/react-dom-2.1.2.tgz#a1349bbf6a0e5cb5ded55d023766f20a4d439a31"
   integrity sha512-06okr5cgPzMNBy+Ycse2A6udMi4bqwW/zgBF/rwjcNqWkyr82Mcg8b0vjX8OJpZFy/FKjJmw6wV7t44kK6kW7A==
@@ -2147,7 +2147,7 @@
   resolved "https://registry.yarnpkg.com/@radix-ui/react-context/-/react-context-1.1.1.tgz#82074aa83a472353bb22e86f11bcbd1c61c4c71a"
   integrity sha512-UASk9zi+crv9WteK/NU4PLvOoL3OuE6BWVKNF6hPRBtYBDXQ2u5iu3O59zUlJiTVvkyuycnqrztsHVJwcK9K+Q==
 
-"@radix-ui/react-dialog@1.1.2", "@radix-ui/react-dialog@^1.0.5", "@radix-ui/react-dialog@^1.1.2":
+"@radix-ui/react-dialog@1.1.2", "@radix-ui/react-dialog@^1.0.4", "@radix-ui/react-dialog@^1.0.5", "@radix-ui/react-dialog@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-dialog/-/react-dialog-1.1.2.tgz#d9345575211d6f2d13e209e84aec9a8584b54d6c"
   integrity sha512-Yj4dZtqa2o+kG61fzB0H2qUvmwBA2oyQroGLyNtBj1beo1khoQ3q1a2AO8rrQYjd8256CO9+N8L9tvsS+bnIyA==
@@ -3468,7 +3468,7 @@
     "@swc/counter" "^0.1.3"
     tslib "^2.4.0"
 
-"@swc/helpers@^0.5.11":
+"@swc/helpers@^0.5.11", "@swc/helpers@^0.5.3":
   version "0.5.15"
   resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.5.15.tgz#79efab344c5819ecf83a43f3f9f811fc84b516d7"
   integrity sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==
@@ -3493,6 +3493,124 @@
   version "3.23.0"
   resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-3.23.0.tgz#d00b5c98c110fd0e773dff81f4776ba52e49f576"
   integrity sha512-Cz+X58jfRm0g/KcupXXuPw5knj671lNR054AnmLXvCjudiQBWI0wZulDDSsqDoGezvBzMTNPQtNcjLkZs82ZxQ==
+
+"@telegram-apps/bridge@^1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@telegram-apps/bridge/-/bridge-1.7.1.tgz#6e0d40d8433ac0059babc4ee0c11e598e41e3ff4"
+  integrity sha512-oRbznpIC4UibMVygQ+tcS0ZSKx7DaI07MXQF42VETQ/VOCKeaWZeQFUifo4A+CzT6XMGo2hyse/CQP9ziX0H7g==
+  dependencies:
+    "@telegram-apps/signals" "^1.1.0"
+    "@telegram-apps/toolkit" "^1.0.0"
+    "@telegram-apps/transformers" "^1.2.0"
+    "@telegram-apps/types" "^1.2.0"
+
+"@telegram-apps/navigation@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@telegram-apps/navigation/-/navigation-1.0.9.tgz#fc44902973d923b7e20c348231c536cf8662fca7"
+  integrity sha512-Ur24luu+fizrKCDQAoJWQzMj+IwNiqtQlrITz42DORKSohj5yvf9kD5AJO2r9sHC+iC2pLXHCn1dV34o6tbeaQ==
+  dependencies:
+    "@telegram-apps/bridge" "^1.7.1"
+    "@telegram-apps/signals" "^1.1.0"
+    "@telegram-apps/toolkit" "^1.0.0"
+
+"@telegram-apps/sdk-react@^2.0.5":
+  version "2.0.19"
+  resolved "https://registry.yarnpkg.com/@telegram-apps/sdk-react/-/sdk-react-2.0.19.tgz#2725735585ad139e681c7566bf4a764e360f6548"
+  integrity sha512-mQfBspQd+KbNW9gp26b2QN+T+SFiYfjZV1X91mM68hIPnChPjwCJRTZrNtx+nvT49B/NURMMtTT/eF84IX1ltA==
+  dependencies:
+    "@telegram-apps/sdk" "^2.9.1"
+
+"@telegram-apps/sdk@^2.9.1":
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/@telegram-apps/sdk/-/sdk-2.9.1.tgz#d916057d350008945b1de384ea534c2f1d821320"
+  integrity sha512-fW5e0B7yt4jIlEJfXzZwrY2cYufyXQw6xIu2eRfKl1l6N/ETIwZZRr6jOOsRCzzpWUfqePvwItqKIuRf8mGcog==
+  dependencies:
+    "@telegram-apps/bridge" "^1.7.1"
+    "@telegram-apps/navigation" "^1.0.9"
+    "@telegram-apps/signals" "^1.1.0"
+    "@telegram-apps/toolkit" "^1.0.0"
+    "@telegram-apps/transformers" "^1.2.0"
+
+"@telegram-apps/signals@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@telegram-apps/signals/-/signals-1.1.0.tgz#4b71d6fdf50b0f583abe28050961e1eb15aa97fc"
+  integrity sha512-5qN7cU8t3l7n0cKcnzc/1TYKJTwAggUinfwbLHL1SYmB47pBHjCvfsRiYliFohk6lb635SBmNuVZL6LHFmGZaw==
+
+"@telegram-apps/telegram-ui@^2.1.5":
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/@telegram-apps/telegram-ui/-/telegram-ui-2.1.8.tgz#97b9145a7aaa0fd0e705b65248c225df655957e5"
+  integrity sha512-Y4mIRzBJDerFvF6yzsfwHpu2tKEMHnnnQgdnLTwIdXNVPq/sJTaY66Qxbh9eeO5+tct01VcAx4E70/1fMvnp8A==
+  dependencies:
+    "@floating-ui/react-dom" "^2.0.8"
+    "@swc/helpers" "^0.5.3"
+    "@twa-dev/types" "^7.0.0"
+    "@xelene/vaul-with-scroll-fix" "0.1.4"
+
+"@telegram-apps/toolkit@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@telegram-apps/toolkit/-/toolkit-1.0.0.tgz#e0fb3541100bcfe2956ab163dd51b9577cc6c2d0"
+  integrity sha512-fSVoveLuMzwRKWeXEufMSXxH+HvjsFKb1DeT3pG5qLpnb2rdtejnNcwAt6WEPtiZ3a4YntYaFuR3KYgVv0ZxeQ==
+
+"@telegram-apps/transformers@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@telegram-apps/transformers/-/transformers-1.2.0.tgz#2a6516aba30a9c1c78dd7ee22b208e1adacd9e28"
+  integrity sha512-RufLdD044RPaAJdh+Mp/98JI+Wkp5mhX3WYCg6IZYFMRwu3QTu2FBwYmU9FdRmBF9utbcymSFrY1cqxh+Vtkfg==
+  dependencies:
+    "@telegram-apps/toolkit" "^1.0.0"
+    "@telegram-apps/types" "^1.2.0"
+
+"@telegram-apps/types@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@telegram-apps/types/-/types-1.2.0.tgz#447d41e1943b15949f52ae53287b1a5ff798dbd7"
+  integrity sha512-HhvnSCsqlJpes5ZGsZP/qbDNq8eLLnjgZKaF5NRsDqAKUPvaIIFT1HdyDII/8EioUgoI4FHsP8MylK2Gzm2efg==
+
+"@tonconnect/isomorphic-eventsource@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@tonconnect/isomorphic-eventsource/-/isomorphic-eventsource-0.0.2.tgz#e58c44cf9953e090f2c35da9a638946ddb614be5"
+  integrity sha512-B4UoIjPi0QkvIzZH5fV3BQLWrqSYABdrzZQSI9sJA9aA+iC0ohOzFwVVGXanlxeDAy1bcvPbb29f6sVUk0UnnQ==
+  dependencies:
+    eventsource "^2.0.2"
+
+"@tonconnect/isomorphic-fetch@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@tonconnect/isomorphic-fetch/-/isomorphic-fetch-0.0.3.tgz#31978e04ddc4428eff532c23d20229ed5ddb6417"
+  integrity sha512-jIg5nTrDwnite4fXao3dD83eCpTvInTjZon/rZZrIftIegh4XxyVb5G2mpMqXrVGk1e8SVXm3Kj5OtfMplQs0w==
+  dependencies:
+    node-fetch "^2.6.9"
+
+"@tonconnect/protocol@^2.2.6":
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/@tonconnect/protocol/-/protocol-2.2.6.tgz#24b3fbcde6003e65fb5840a190072db5378699db"
+  integrity sha512-kyoDz5EqgsycYP+A+JbVsAUYHNT059BCrK+m0pqxykMODwpziuSAXfwAZmHcg8v7NB9VKYbdFY55xKeXOuEd0w==
+  dependencies:
+    tweetnacl "^1.0.3"
+    tweetnacl-util "^0.15.1"
+
+"@tonconnect/sdk@3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@tonconnect/sdk/-/sdk-3.0.5.tgz#08a202bdc8ea897c37221fd69925c35cd2106323"
+  integrity sha512-ow0qnN4s3iQ/r2uXobZ7YzdQBtan/36CgCT9IP35G07g38UxsUXwzw8ANmJTDj/JPiQcIKuYBMfIwIX9zLM0wg==
+  dependencies:
+    "@tonconnect/isomorphic-eventsource" "^0.0.2"
+    "@tonconnect/isomorphic-fetch" "^0.0.3"
+    "@tonconnect/protocol" "^2.2.6"
+
+"@tonconnect/ui-react@^2.0.5":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@tonconnect/ui-react/-/ui-react-2.0.9.tgz#c226b81110e05b7e259bbf965ad5da42318a5dd3"
+  integrity sha512-wN7tEZpQiRYSUcdNAxFsDkk5TYo8krIu00ZLE1R5kXyr+XpO120jOmTEweBSXvIzTgEVkD/PxDZbBQQxRTXsUw==
+  dependencies:
+    "@tonconnect/ui" "2.0.9"
+
+"@tonconnect/ui@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@tonconnect/ui/-/ui-2.0.9.tgz#589285c9b8f4b0d94c10b3feadfae266bf086503"
+  integrity sha512-ZxofTBf81NqrxyD0ybI8AuFHN11uKVg/00xTDFhP5FoPB8rYC7En9qE2VJ6IvwvtTpmh8jspi2ancOHUMBoCQA==
+  dependencies:
+    "@tonconnect/sdk" "3.0.5"
+    classnames "^2.3.2"
+    deepmerge "^4.2.2"
+    ua-parser-js "^1.0.35"
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -3789,6 +3907,11 @@
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
+
+"@twa-dev/types@^7.0.0":
+  version "7.10.0"
+  resolved "https://registry.yarnpkg.com/@twa-dev/types/-/types-7.10.0.tgz#907f3e4bc082405a3130dee82a66dbf01d6fd33e"
+  integrity sha512-BXHyNLXy+cPbOZ2qQq5ArPKcP4kUfuX3YBSFT0XUxtMNWAzvyMuYAiq59UTfQ8OnELXlfChrAoIT3c2pujBtcQ==
 
 "@types/cacheable-request@^6.0.1":
   version "6.0.3"
@@ -4445,6 +4568,13 @@
   dependencies:
     "@walletconnect/window-getters" "^1.0.1"
     tslib "1.14.1"
+
+"@xelene/vaul-with-scroll-fix@0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@xelene/vaul-with-scroll-fix/-/vaul-with-scroll-fix-0.1.4.tgz#777ff30d43e4181cb3d02c004e93efbd216a5063"
+  integrity sha512-R9J7y92rzZKIQLtFHKtzRsb4x8G26cvwGIDSf7OQZCdROFt7xic4Yz1BlFYjm8oiQsYV4SFSQfOzatZjvxz5XQ==
+  dependencies:
+    "@radix-ui/react-dialog" "^1.0.4"
 
 JSONStream@^1.3.5:
   version "1.3.5"
@@ -5411,6 +5541,11 @@ class-variance-authority@^0.7.0:
   integrity sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==
   dependencies:
     clsx "^2.1.1"
+
+classnames@^2.3.2:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.5.1.tgz#ba774c614be0f016da105c858e7159eae8e7687b"
+  integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
 
 clean-stack@^2.0.0:
   version "2.2.0"
@@ -6768,6 +6903,11 @@ events@3.3.0, events@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
+
+eventsource@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/eventsource/-/eventsource-2.0.2.tgz#76dfcc02930fb2ff339520b6d290da573a9e8508"
+  integrity sha512-IzUmBGPR3+oUG9dUeXynyNmf91/3zUSJg1lCktzKw47OXuhco54U3r9B7O4XX+Rb1Itm9OZ2b0RkTs10bICOxA==
 
 evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
   version "1.0.3"
@@ -8767,7 +8907,7 @@ node-fetch-native@^1.6.4:
   resolved "https://registry.yarnpkg.com/node-fetch-native/-/node-fetch-native-1.6.4.tgz#679fc8fd8111266d47d7e72c379f1bed9acff06e"
   integrity sha512-IhOigYzAKHd244OC0JIMIUrjzctirCmPkaIfhDeGcEETWof5zKYUW7e7MYvChGWh/4CJeXEgsRyGzuF334rOOQ==
 
-node-fetch@^2.6.12, node-fetch@^2.7.0:
+node-fetch@^2.6.12, node-fetch@^2.6.9, node-fetch@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
   integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
@@ -11055,10 +11195,20 @@ tunnel-agent@^0.6.0:
   dependencies:
     safe-buffer "^5.0.1"
 
+tweetnacl-util@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/tweetnacl-util/-/tweetnacl-util-0.15.1.tgz#b80fcdb5c97bcc508be18c44a4be50f022eea00b"
+  integrity sha512-RKJBIj8lySrShN4w6i/BonWp2Z/uxwC3h4y7xsRrpP59ZboCd0GpEVsOnMDYLMmKBpYhb5TgHzZXy7wTfYFBRw==
+
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==
+
+tweetnacl@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.3.tgz#ac0af71680458d8a6378d0d0d050ab1407d35596"
+  integrity sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
@@ -11134,7 +11284,7 @@ typescript@^5.6.2:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.2.tgz#3169cf8c4c8a828cde53ba9ecb3d2b1d5dd67be6"
   integrity sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==
 
-ua-parser-js@^1.0.37:
+ua-parser-js@^1.0.35, ua-parser-js@^1.0.37:
   version "1.0.39"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.39.tgz#bfc07f361549bf249bd8f4589a4cccec18fd2018"
   integrity sha512-k24RCVWlEcjkdOxYmVJgeD/0a1TiSpqLg+ZalVGV9lsnr4yqu0w7tX/x2xX6G4zpkgQnRf89lxuZ1wsbjXM8lw==

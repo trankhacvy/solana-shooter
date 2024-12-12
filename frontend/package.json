@@ -25,7 +25,8 @@
         "dev": "next dev -p 3000",
         "build": "next build",
         "dev-snowpack": "snowpack dev",
-        "start": "next start -p 3000"
+        "start": "next start -p 3000",
+        "dev:https": "next dev --experimental-https"
     },
     "dependencies": {
         "@coral-xyz/anchor": "^0.30.1",
@@ -61,6 +62,9 @@
         "@solana/wallet-adapter-wallets": "^0.19.32",
         "@solana/web3.js": "^1.95.5",
         "@tabler/icons-react": "^3.11.0",
+        "@telegram-apps/sdk-react": "^2.0.5",
+        "@telegram-apps/telegram-ui": "^2.1.5",
+        "@tonconnect/ui-react": "^2.0.5",
         "axios": "^1.6.8",
         "bs58": "^6.0.0",
         "class-variance-authority": "^0.7.0",

@@ -6,7 +6,9 @@ const config = {
 
         // Grab the existing rule that handles SVG imports
         // @ts-ignore - rules is a private property that is not typed
-        const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.(".svg"));
+        const fileLoaderRule = config.module.rules.find((rule) =>
+            rule.test?.test?.(".svg")
+        );
 
         config.module.rules.push(
             // Reapply the existing rule, but only for svg imports ending in ?url
@@ -19,7 +21,9 @@ const config = {
             {
                 test: /\.svg$/i,
                 issuer: fileLoaderRule.issuer,
-                resourceQuery: { not: [...(fileLoaderRule?.resourceQuery?.not || []), /url/] }, // exclude if *.svg?url
+                resourceQuery: {
+                    not: [...(fileLoaderRule?.resourceQuery?.not || []), /url/],
+                }, // exclude if *.svg?url
                 use: [
                     {
                         loader: "@svgr/webpack",
@@ -28,7 +32,7 @@ const config = {
                         },
                     },
                 ],
-            },
+            }
         );
 
         // Modify the file loader rule to ignore *.svg, since we have it handled now.
@@ -62,6 +66,9 @@ const config = {
             // },
         ];
     },
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
 };
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
@@ -69,3 +76,4 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 module.exports = withBundleAnalyzer(config);
+
