@@ -90,6 +90,7 @@ export default class LoadingScene extends Phaser.Scene {
 
             this.scene.stop(constants.SCENES.LOADING);
             this.scene.switch(constants.SCENES.MINT);
+            // this.scene.switch("demo");
         });
     }
 
@@ -375,11 +376,24 @@ export default class LoadingScene extends Phaser.Scene {
         });
         this.load.tilemapTiledJSON("town_json", "tilemaps/json/town.json");
 
+        this.load.tilemapTiledJSON("city_json", "tilemaps/json/city.json");
+
         this.load.image({
             key: "city_tiles",
             url: "tilemaps/tiles/city.png",
         });
-        this.load.tilemapTiledJSON("city_json", "tilemaps/json/city.json");
+        this.load.image({
+            key: "Building1",
+            url: "tilemaps/tiles/Building1.png",
+        });
+        this.load.image({
+            key: "Building2",
+            url: "tilemaps/tiles/Building2.png",
+        });
+        this.load.image({
+            key: "StreetLight",
+            url: "tilemaps/tiles/StreetLight.png",
+        });
     }
 
     private loadBullets() {

@@ -30,7 +30,7 @@ export default class DemoScene extends Phaser.Scene {
 
         const bg = this.add.image(0, 0, "mint-bg").setOrigin(0.5, 0.5);
 
-        const scale = height / bg.height;
+        const scale = width / bg.width;
         bg.setScale(scale);
 
         bg.setX(width / 2);
@@ -100,10 +100,10 @@ export default class DemoScene extends Phaser.Scene {
             try {
                 EventBus.emit(EVENTS.LOADING.TOGGLE_LOADING, true);
 
-                const user = await createUserAndProfileIfNeeded(
-                    this.walletState
-                );
-                console.log("user", user);
+                // const user = await createUserAndProfileIfNeeded(
+                //     this.walletState
+                // );
+                // console.log("user", user);
 
                 this.scene.start(constants.SCENES.CITY);
             } catch (error) {
@@ -117,10 +117,12 @@ export default class DemoScene extends Phaser.Scene {
     }
 
     private addSound(): void {
-        this.sound.play("main-theme", {
-            volume: 0.1,
-            loop: true,
-        });
+        setTimeout(() => {
+            this.sound.play("main-theme", {
+                volume: 0.1,
+                loop: true,
+            });
+        }, 200);
     }
 
     private addEvents(): void {

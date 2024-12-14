@@ -12,6 +12,7 @@ import SettingsScene from "../scenes/SettingsScene";
 import DemoScene from "../scenes/DemoScene";
 import CityScene from "../scenes/CityScene";
 import MintScene from "../scenes/MintScene";
+import StakeUnstakeScene from "../scenes/StakeUnstakeScene";
 
 export default [
     LoadingScene,
@@ -28,5 +29,6 @@ export default [
     DemoScene,
     CityScene,
     MintScene,
+    StakeUnstakeScene,
 ];
 

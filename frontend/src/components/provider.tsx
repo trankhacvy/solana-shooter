@@ -40,11 +40,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <WalletProvider wallets={wallets} autoConnect>
                 <WalletModalProvider>
                     <MagicBlockEngineProvider>
-                        <TelegramWrapper>
-                            <LoadingProvider>
-                                <LoadingWrapper>{children}</LoadingWrapper>
-                            </LoadingProvider>
-                        </TelegramWrapper>
+                        {/* <TelegramWrapper> */}
+                        <LoadingProvider>
+                            <LoadingWrapper>{children}</LoadingWrapper>
+                        </LoadingProvider>
+                        {/* </TelegramWrapper> */}
                     </MagicBlockEngineProvider>
                 </WalletModalProvider>
             </WalletProvider>
@@ -114,3 +114,4 @@ export function TelegramWrapper({ children }: { children: React.ReactNode }) {
         <div className="root__loading">Loading</div>
     );
 }
+

@@ -57,6 +57,10 @@ export default {
         AUDIO: "audio-scene",
         CITY: "city-scene",
         MINT: "mint-scene",
+        MARKETPLACE: "marketplace-scene",
+        GAME_STATION: "game-station-scene",
+        BANK: "bank-scene",
+        STAKE_UNSTAKE: "stake-unstake-scene",
     },
     LEVEL: {
         WIDTH: 50,
